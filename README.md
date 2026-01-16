@@ -98,20 +98,20 @@ See [Chrome DevTools Documentation](./docs/CHROME-DEVTOOLS.md)
 
 # Add marketplace and install
 /plugin marketplace add PatFischer91/typo3_development
-/plugin install typo3-development@PatFischer91/typo3_development
+/plugin install typo3-development@typo3-development-marketplace
 ```
 
 ### Via CLI
 
 ```bash
 claude plugin marketplace add PatFischer91/typo3_development
-claude plugin install typo3-development@PatFischer91/typo3_development
+claude plugin install typo3-development@typo3-development-marketplace
 ```
 
 ### Manual Installation
 
 ```bash
-git clone https://github.com/PatFischer91/typo3_development.git ~/.claude/plugins/typo3-development
+git clone https://github.com/PatFischer91/typo3_development.git ~/.claude/plugins/typo3-development-marketplace
 ```
 
 ### MCP Server Requirements (Optional)
@@ -200,44 +200,30 @@ Create `.claude/typo3-config.json`:
 ```
 typo3_development/
 ├── .claude-plugin/
-│   └── plugin.json           # Plugin metadata
-├── commands/                  # 14 Slash commands
-│   ├── init.md               # Project initialization
-│   ├── extension.md
-│   ├── model.md
-│   ├── plugin.md
-│   ├── controller.md
-│   ├── viewhelper.md
-│   ├── middleware.md
-│   ├── upgrade.md
-│   ├── test.md
-│   ├── migration.md
-│   ├── scheduler.md
-│   ├── flexform.md
-│   ├── event.md
-│   └── command.md
-├── skills/                    # 9 Auto-activated skills
-│   ├── typo3-coding-standards/
-│   ├── extbase-patterns/
-│   ├── fluid-best-practices/
-│   ├── dependency-injection/
-│   ├── security-awareness/
-│   ├── doctrine-dbal/
-│   ├── typo3-api/
-│   ├── content-blocks/
-│   └── project-aware/        # Version-specific adaptations
-├── agents/                    # 5 Specialized agents
-│   ├── typo3-validator/
-│   ├── typo3-migration-assistant/
-│   ├── typo3-security-scanner/
-│   ├── tca-validator/
-│   └── typoscript-analyzer/
-├── hooks/
-│   └── hooks.json            # Event-driven automation
-├── mcp/
-│   └── typo3-docs-server/    # TYPO3 Documentation MCP
-├── .mcp.json                  # MCP configuration
-└── docs/                      # Documentation
+│   └── marketplace.json      # Marketplace manifest
+├── typo3-development/        # Plugin directory
+│   ├── .claude-plugin/
+│   │   └── plugin.json       # Plugin metadata
+│   ├── commands/             # 14 Slash commands
+│   │   ├── init.md           # Project initialization
+│   │   ├── extension.md
+│   │   ├── model.md
+│   │   └── ...
+│   ├── skills/               # 9 Auto-activated skills
+│   │   ├── typo3-coding-standards/
+│   │   ├── extbase-patterns/
+│   │   └── ...
+│   ├── agents/               # 5 Specialized agents
+│   │   ├── typo3-validator/
+│   │   ├── typo3-migration-assistant/
+│   │   └── ...
+│   ├── hooks/
+│   │   └── hooks.json        # Event-driven automation
+│   ├── mcp/
+│   │   └── typo3-docs-server/  # TYPO3 Documentation MCP
+│   └── .mcp.json             # MCP configuration
+├── docs/                     # Documentation
+└── README.md
 ```
 
 ## 🤝 Contributing
