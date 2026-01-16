@@ -17,7 +17,7 @@ This plugin extends Claude Code with TYPO3-specific functionality:
 
 | Command | Description |
 |---------|-------------|
-| `/typo3:init` | **Run first!** Analyzes project, detects TYPO3 version, configures session |
+| `/typo3:init` | Deep project analysis (auto-runs on new projects, manual for detailed config) |
 | `/typo3:extension` | Creates complete extension structure with best practices |
 | `/typo3:model` | Generates Domain Model + Repository + TCA + SQL |
 | `/typo3:plugin` | Creates plugin with Controller, Templates, FlexForm |
@@ -110,11 +110,12 @@ npm install -g @anthropic-ai/mcp-devtools-server
 
 ## 🚀 Quick Start
 
-0. **Initialize project** (run first in any TYPO3 project):
-   ```
-   /typo3:init
-   ```
-   This detects your TYPO3 version, PHP version, installed extensions, and configures Claude Code for your specific setup.
+**Auto-Detection:** When you open a TYPO3 project for the first time (no `.claude/CLAUDE.md` yet), the plugin automatically detects your TYPO3 version and configures itself. No manual setup needed!
+
+For deeper analysis, you can optionally run:
+```
+/typo3:init
+```
 
 1. **Create new extension**:
    ```

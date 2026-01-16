@@ -1,11 +1,23 @@
 ---
-description: Analyzes the current TYPO3 project, detects version, configuration, and sets up Claude Code for optimal assistance. Run this first in any TYPO3 project!
+description: Deep analysis of TYPO3 project with detailed configuration. Auto-runs on new projects, use manually for deeper analysis or reconfiguration.
 allowed-tools: Read, Glob, Grep, Bash, Write
 ---
 
 # TYPO3 Project Initialization
 
-Analyzes the current TYPO3 project and configures Claude Code for optimal assistance.
+Performs a detailed analysis of the TYPO3 project and creates comprehensive configuration.
+
+## Auto-Initialization
+
+**Important:** Basic project detection happens AUTOMATICALLY at session start for new TYPO3 projects (when no `.claude/CLAUDE.md` exists yet). You don't need to run this command manually in most cases.
+
+## When to Use This Command
+
+Run `/typo3:init` manually when you want:
+- **Deeper analysis** with site configurations, installed extensions, dev tools
+- **Reconfiguration** after major project changes
+- **Detailed report** of project structure and recommendations
+- **Force refresh** of `.claude/typo3-project.json`
 
 ## Usage
 
@@ -15,7 +27,7 @@ Analyzes the current TYPO3 project and configures Claude Code for optimal assist
 
 **Arguments:** $ARGUMENTS
 
-## What This Command Does
+## What This Command Does (Deep Analysis)
 
 1. **Detects TYPO3 Version** from composer.json/lock
 2. **Identifies Project Structure** (Composer mode, legacy, DDEV, etc.)
@@ -290,7 +302,8 @@ Try these commands:
 
 ## Important Notes
 
-- Run this command at the **start of each session** for best results
+- **Auto-init** happens at session start for new projects (no CLAUDE.md yet)
+- This command provides **deeper analysis** than auto-init
 - The analysis is saved to `.claude/typo3-project.json`
 - You can edit the JSON to customize behavior
-- Re-run after major project changes
+- Re-run after major project changes (new extensions, TYPO3 upgrade, etc.)
