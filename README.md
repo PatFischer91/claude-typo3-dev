@@ -2,18 +2,18 @@
 
 A comprehensive plugin for TYPO3 developers that automates workflows with specific tools, validations, and best practices enforcement.
 
-## 🎯 Overview
+## Overview
 
 This plugin extends Claude Code with TYPO3-specific functionality:
-- **Slash Commands** for extension scaffolding and code generation
-- **Skills** for automatic coding standards compliance
-- **Agents** for code validation and migration assistance
+- **Slash Commands** for extension scaffolding, code generation, and documentation access
+- **Skills** for automatic coding standards compliance and browser testing
+- **Agents** for code validation, migration assistance, and automated testing
 - **Hooks** for automated quality checks
-- **MCP Servers** for TYPO3 documentation and browser testing
+- **Chrome DevTools** for browser-based testing and debugging
 
-## ✨ Features
+## Features
 
-### 📝 Slash Commands
+### Slash Commands
 
 | Command | Description |
 |---------|-------------|
@@ -31,8 +31,14 @@ This plugin extends Claude Code with TYPO3-specific functionality:
 | `/typo3:flexform` | Generates FlexForm XML configuration |
 | `/typo3:event` | Creates PSR-14 Event + Listener |
 | `/typo3:command` | Creates Symfony Console Command |
+| `/typo3:docs` | Search TYPO3 official documentation |
+| `/typo3:changelog` | Get TYPO3 Core changelog for version upgrades |
+| `/typo3:ter` | Search TYPO3 Extension Repository |
+| `/typo3:api` | Get TYPO3 Core API reference with examples |
+| `/typo3:cgl` | Get TYPO3 Coding Guidelines reference |
+| `/typo3:test-browser` | Test TYPO3 frontend/backend in Chrome browser |
 
-### 🤖 Skills (auto-activated)
+### Skills (auto-activated)
 
 | Skill | Description |
 |-------|-------------|
@@ -45,8 +51,9 @@ This plugin extends Claude Code with TYPO3-specific functionality:
 | `typo3-api` | Knows TYPO3 Core APIs (Caching, Logging, FAL) |
 | `content-blocks` | Guides TYPO3 v13+ Content Block creation |
 | `project-aware` | Adapts to detected TYPO3 version (v11/v12/v13) |
+| `browser-testing` | Knowledge for testing TYPO3 in Chrome browser |
 
-### 🔍 Agents
+### Agents
 
 | Agent | Description |
 |-------|-------------|
@@ -55,8 +62,9 @@ This plugin extends Claude Code with TYPO3-specific functionality:
 | `typo3-security-scanner` | Finds security vulnerabilities (OWASP Top 10) |
 | `tca-validator` | Validates TCA configurations and column types |
 | `typoscript-analyzer` | Analyzes TypoScript for deprecated syntax |
+| `typo3-browser-tester` | Automated browser testing for frontend and backend |
 
-### 🪝 Hooks
+### Hooks
 
 | Event | Action |
 |-------|--------|
@@ -68,27 +76,20 @@ This plugin extends Claude Code with TYPO3-specific functionality:
 | `PostToolUse: ext_tables.sql` | Reminds to run `extension:setup` |
 | `UserPromptSubmit` | Context-aware suggestions (controller, model, query, etc.) |
 
-### 🌐 MCP Server Integration
+### Chrome DevTools Integration
 
-#### TYPO3 Documentation Server (with real TER API)
-- **search_typo3_docs** - Search docs.typo3.org with curated links
-- **get_typo3_changelog** - Browse TYPO3 Core Changelog (v11/v12/v13)
-- **search_typo3_extensions** - Search TER with real API calls
-- **get_extension_detail** - Get detailed extension info from TER
-- **get_typo3_api_reference** - TYPO3 Core API Reference with examples
-- **get_typo3_coding_guidelines** - Official CGL reference (PHP, DB, Fluid, Security)
-
-#### Chrome DevTools Integration
-Test TYPO3 frontend directly in the browser:
+Browser automation and testing for TYPO3 development:
 - Take viewport/full-page screenshots
 - Inspect DOM and accessibility tree
-- Monitor network requests
-- Run automated tests (click, type, navigate)
-- Analyze Core Web Vitals performance
+- Monitor network requests and console messages
+- Automated form testing and submissions
+- Backend module testing with login
+- Visual regression testing
+- Performance analysis
 
 See [Chrome DevTools Documentation](./docs/CHROME-DEVTOOLS.md)
 
-## 📦 Installation
+## Installation
 
 ### Via Plugin Manager (Recommended)
 
@@ -114,16 +115,13 @@ claude plugin install typo3-development@typo3-development-marketplace
 git clone https://github.com/PatFischer91/typo3_development.git ~/.claude/plugins/typo3-development-marketplace
 ```
 
-### MCP Server Requirements
+### Requirements
 
-The MCP servers install their dependencies automatically:
-
-- **TYPO3 Docs Server**: Requires `uv` ([install uv](https://docs.astral.sh/uv/getting-started/installation/))
-- **Chrome DevTools**: Requires `npx` (comes with Node.js)
+- **Chrome DevTools**: Requires `npx` (comes with Node.js) for browser testing features
 
 See [Installation Guide](./docs/INSTALLATION.md) for detailed instructions.
 
-## 🚀 Quick Start
+## Quick Start
 
 **Auto-Detection:** When you open a TYPO3 project that hasn't been initialized yet (no `CLAUDE.md` in project root), the plugin automatically detects your TYPO3 version and configures itself. No manual setup needed!
 
@@ -131,6 +129,8 @@ For deeper analysis, you can optionally run:
 ```
 /typo3:init
 ```
+
+### Common Workflows
 
 1. **Create new extension**:
    ```
@@ -147,17 +147,22 @@ For deeper analysis, you can optionally run:
    /typo3:plugin ProductList "List products"
    ```
 
-4. **Add tests**:
+4. **Search documentation**:
    ```
-   /typo3:test ProductService functional
+   /typo3:docs QueryBuilder 12.4
    ```
 
-5. **Prepare for upgrade**:
+5. **Test in browser**:
+   ```
+   /typo3:test-browser frontend https://mysite.ddev.site/
+   ```
+
+6. **Prepare for upgrade**:
    ```
    /typo3:upgrade 11.5 12.4
    ```
 
-## 🛠️ Configuration
+## Configuration
 
 ### Built-in Guidelines
 
@@ -186,13 +191,13 @@ Create `.claude/typo3-config.json`:
 }
 ```
 
-## 📚 Documentation
+## Documentation
 
 - [Installation Guide](./docs/INSTALLATION.md) - How to install the plugin
 - [Feature Reference](./docs/FEATURES.md) - Complete feature documentation
 - [Chrome DevTools](./docs/CHROME-DEVTOOLS.md) - Browser testing setup
 
-## 🔧 Directory Structure
+## Directory Structure
 
 ```
 typo3_development/
@@ -201,29 +206,29 @@ typo3_development/
 ├── typo3-development/        # Plugin directory
 │   ├── .claude-plugin/
 │   │   └── plugin.json       # Plugin metadata
-│   ├── commands/             # 14 Slash commands
+│   ├── commands/             # 19 Slash commands
 │   │   ├── init.md           # Project initialization
-│   │   ├── extension.md
-│   │   ├── model.md
+│   │   ├── extension.md      # Extension scaffolding
+│   │   ├── model.md          # Domain model generation
+│   │   ├── docs.md           # Documentation search
+│   │   ├── test-browser.md   # Browser testing
 │   │   └── ...
-│   ├── skills/               # 9 Auto-activated skills
+│   ├── skills/               # 10 Auto-activated skills
 │   │   ├── typo3-coding-standards/
-│   │   ├── extbase-patterns/
+│   │   ├── browser-testing/
 │   │   └── ...
-│   ├── agents/               # 5 Specialized agents
+│   ├── agents/               # 6 Specialized agents
 │   │   ├── typo3-validator/
-│   │   ├── typo3-migration-assistant/
+│   │   ├── typo3-browser-tester/
 │   │   └── ...
 │   ├── hooks/
 │   │   └── hooks.json        # Event-driven automation
-│   ├── mcp/
-│   │   └── typo3-docs-server/  # TYPO3 Documentation MCP
-│   └── .mcp.json             # MCP configuration
+│   └── .mcp.json             # MCP configuration (Chrome DevTools)
 ├── docs/                     # Documentation
 └── README.md
 ```
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome!
 
@@ -232,11 +237,11 @@ Contributions are welcome!
 3. Follow TYPO3 CGL
 4. Submit pull request
 
-## 📄 License
+## License
 
 MIT License
 
-## 🔗 Links
+## Links
 
 - [TYPO3 CMS](https://typo3.org)
 - [TYPO3 Documentation](https://docs.typo3.org)
@@ -246,4 +251,4 @@ MIT License
 
 ---
 
-**Version**: 0.3.0 | **Status**: 🚧 Beta
+**Version**: 0.4.0 | **Status**: Beta

@@ -9,8 +9,8 @@
   "plugins": [
     {
       "name": "typo3-development",
-      "description": "Comprehensive TYPO3 development plugin with 14 commands, 9 skills, 5 agents, and MCP servers for documentation and browser testing",
-      "version": "0.3.0",
+      "description": "Comprehensive TYPO3 development plugin with 19 commands, 10 skills, 6 agents, and Chrome DevTools integration for browser testing",
+      "version": "0.4.0",
       "author": {
         "name": "PatFischer91"
       },

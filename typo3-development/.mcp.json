@@ -1,22 +1,12 @@
 {
   "mcpServers": {
-    "typo3-docs": {
-      "command": "bash",
-      "args": [
-        "${pluginRoot}/mcp/typo3-docs-server/run.sh"
-      ],
-      "env": {
-        "PYTHONUNBUFFERED": "1"
-      },
-      "description": "TYPO3 Documentation Server - Provides access to TYPO3 docs, changelog, TER, and API reference"
-    },
     "chrome-devtools": {
       "command": "npx",
       "args": [
         "chrome-devtools-mcp@latest"
       ],
       "env": {},
-      "description": "Chrome DevTools integration for testing TYPO3 frontend in browser. Enables viewport screenshots, DOM inspection, network monitoring, and automated testing."
+      "description": "Chrome DevTools integration for TYPO3 development. Browser automation, testing, debugging, screenshots, DOM inspection, network analysis, form interactions, and any browser-based tasks."
     }
   }
 }
