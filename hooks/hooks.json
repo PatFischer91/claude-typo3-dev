@@ -1,0 +1,118 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "type": "prompt",
+        "prompt": "Load TYPO3 Coding Guidelines from https://github.com/in2code-de/claude-code-instructions/blob/main/CLAUDE.md and apply them throughout this session. Key points: Use PSR-12, defined('TYPO3') || die(); in config files, Dependency Injection via constructor, no $GLOBALS['TSFE'], Doctrine DBAL with QueryBuilder, slim controllers, no business logic in Fluid templates."
+      }
+    ],
+
+    "PreToolUse": [
+      {
+        "matcher": "Write.*\\.php$|Edit.*\\.php$",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Before writing/editing PHP code, ensure TYPO3 best practices:\n\n1. File header: declare(strict_types=1); after <?php\n2. Config files: defined('TYPO3') || die(); (NOT or die())\n3. Namespacing: Vendor\\ExtensionKey\\ComponentType\\\n4. Type declarations on all parameters and return types\n5. Constructor injection (not makeInstance or ObjectManager)\n6. No direct $_GET, $_POST, $_SESSION access\n7. No $GLOBALS['TSFE'] - use request attributes\n8. Database queries use QueryBuilder with named parameters\n9. Controllers are slim - business logic in services\n10. PSR-12 compliant (braces, spacing, indentation)"
+          }
+        ]
+      },
+      {
+        "matcher": "Write.*\\.html$|Edit.*\\.html$",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Before writing/editing Fluid templates, ensure:\n\n1. No business logic - only presentation logic\n2. Use ViewHelpers for complex logic\n3. Output is escaped by default - be careful with f:format.raw()\n4. Use Layouts, Templates, Partials structure\n5. No direct calculations or data manipulation\n6. Prepare data in Controller/Service, not in template"
+          }
+        ]
+      },
+      {
+        "matcher": "Write.*TCA.*\\.php$|Edit.*TCA.*\\.php$",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Before writing/editing TCA configuration:\n\n1. Start with defined('TYPO3') || die();\n2. Return array (not $GLOBALS['TCA'][...] = [...])\n3. Include proper ctrl section with label, tstamp, crdate, delete\n4. Add language support fields (sys_language_uid, l10n_parent)\n5. Include enablecolumns (hidden, starttime, endtime)\n6. Define types and palettes for proper BE forms\n7. Use proper column types from TYPO3 v12+ (input, text, number, datetime, select, etc.)"
+          }
+        ]
+      }
+    ],
+
+    "PostToolUse": [
+      {
+        "matcher": "Write.*\\.php$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -f vendor/bin/php-cs-fixer ]; then vendor/bin/php-cs-fixer fix \"$FILE\" --rules=@PSR12 --quiet || true; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Write.*ext_tables\\.sql$|Edit.*ext_tables\\.sql$",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "After modifying ext_tables.sql, remind user to run: typo3 extension:setup to update database schema"
+          }
+        ]
+      }
+    ],
+
+    "UserPromptSubmit": [
+      {
+        "matcher": "controller|extbase|action",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "When creating/modifying Extbase controllers, suggest TYPO3 best practices:\n\n1. Slim controllers - move business logic to services\n2. Constructor-based dependency injection\n3. All actions return ResponseInterface\n4. No $GLOBALS['TSFE'] access\n5. Use $this->request instead of direct $_GET/$_POST\n6. Validation via Extbase validators or manual checks"
+          }
+        ]
+      },
+      {
+        "matcher": "model|domain|repository",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "When working with Domain Models and Repositories:\n\n1. Models extend AbstractEntity\n2. Use proper type declarations (declare(strict_types=1);)\n3. Repositories use QueryBuilder for complex queries\n4. Always use named parameters in queries\n5. Models can have business logic methods (not just getters/setters)\n6. Repositories handle all data access"
+          }
+        ]
+      },
+      {
+        "matcher": "query|database|sql",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "When writing database queries:\n\n1. Use Doctrine DBAL QueryBuilder\n2. Always use createNamedParameter() to prevent SQL injection\n3. Specify PDO types (\\PDO::PARAM_INT, \\PDO::PARAM_STR)\n4. Never use $GLOBALS['TYPO3_DB'] (removed in v10)\n5. Never concatenate user input into queries\n6. Use Connection::PARAM_INT_ARRAY for IN() clauses\n7. Respect TYPO3 query restrictions (deleted, hidden, etc.)"
+          }
+        ]
+      },
+      {
+        "matcher": "viewhelper|fluid|template",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "When working with Fluid templates and ViewHelpers:\n\n1. No business logic in templates\n2. Create custom ViewHelpers for complex presentation logic\n3. Be careful with f:format.raw() - never use on user input\n4. Use proper template structure (Layouts, Templates, Partials)\n5. ViewHelpers should extend AbstractViewHelper\n6. Use renderStatic() for better performance"
+          }
+        ]
+      },
+      {
+        "matcher": "migration|upgrade|deprecated",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "When dealing with TYPO3 upgrades or deprecated code:\n\n1. Check docs.typo3.org changelog for breaking changes\n2. Replace GeneralUtility::getUrl() with RequestFactory\n3. Replace $GLOBALS['TSFE'] with request attributes\n4. Replace ObjectManager with constructor injection\n5. Update old hook system to PSR-14 Events\n6. Replace deprecated TCA types with TYPO3 v12+ types\n7. Use /typo3:upgrade command for assistance"
+          }
+        ]
+      },
+      {
+        "matcher": "security|xss|injection|vulnerability",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "When addressing security concerns:\n\n1. Validate all user input\n2. Use QueryBuilder with named parameters (never concatenate SQL)\n3. Escape output in templates (Fluid does this by default)\n4. Never use f:format.raw() on user input\n5. Don't access $_GET, $_POST, $_SESSION directly\n6. Validate file uploads (type, size, content)\n7. Use HTTPS for production\n8. Don't expose sensitive data in logs or error messages"
+          }
+        ]
+      }
+    ]
+  }
+}

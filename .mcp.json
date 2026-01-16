@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "typo3-docs": {
+      "command": "python",
+      "args": [
+        "mcp/typo3-docs-server/server.py"
+      ],
+      "env": {}
+    }
+  }
+}

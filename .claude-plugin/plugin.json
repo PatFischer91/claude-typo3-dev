@@ -1,0 +1,15 @@
+{
+  "name": "typo3-development",
+  "description": "Comprehensive TYPO3 development plugin for Claude Code with coding standards, extension scaffolding, and best practices automation",
+  "version": "0.1.0",
+  "author": {
+    "name": "TYPO3 Community"
+  },
+  "homepage": "https://github.com/YOUR_USERNAME/typo3_development",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_USERNAME/typo3_development"
+  },
+  "license": "MIT",
+  "keywords": ["typo3", "extbase", "fluid", "cms", "development", "coding-standards"]
+}
