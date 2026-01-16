@@ -10,32 +10,32 @@
 
 # Then select "Discover" and search for "typo3"
 # Or add the marketplace directly:
-/plugin marketplace add PatFischer91/typo3_development
+/plugin marketplace add PatFischer91/claude-typo3-dev
 ```
 
 ### Option 2: Direct Installation
 
 ```bash
 # Install directly from GitHub
-/plugin install typo3-development@PatFischer91/typo3_development
+/plugin install typo3-dev@in2code
 ```
 
 ### Option 3: CLI Installation
 
 ```bash
 # From your terminal
-claude plugin marketplace add PatFischer91/typo3_development
-claude plugin install typo3-development@PatFischer91/typo3_development
+claude plugin marketplace add PatFischer91/claude-typo3-dev
+claude plugin install typo3-dev@in2code
 ```
 
 ### Option 4: Manual Installation
 
 ```bash
 # Clone to your plugins directory
-git clone https://github.com/PatFischer91/typo3_development.git ~/.claude/plugins/typo3-development
+git clone https://github.com/PatFischer91/claude-typo3-dev.git ~/.claude/plugins/in2code
 
 # Or for project-specific installation
-git clone https://github.com/PatFischer91/typo3_development.git .claude/plugins/typo3-development
+git clone https://github.com/PatFischer91/claude-typo3-dev.git .claude/plugins/in2code
 ```
 
 ## Requirements
@@ -89,10 +89,10 @@ After installation, verify the plugin is active:
 
 ```bash
 # Via plugin manager
-/plugin uninstall typo3-development
+/plugin uninstall typo3-dev
 
 # Or via CLI
-claude plugin uninstall typo3-development@PatFischer91/typo3_development
+claude plugin uninstall typo3-dev@in2code
 ```
 
 ## Updating
@@ -102,8 +102,8 @@ claude plugin uninstall typo3-development@PatFischer91/typo3_development
 /plugin marketplace update
 
 # Reinstall plugin for latest version
-/plugin uninstall typo3-development
-/plugin install typo3-development@PatFischer91/typo3_development
+/plugin uninstall typo3-dev
+/plugin install typo3-dev@in2code
 ```
 
 ## Troubleshooting
@@ -112,7 +112,7 @@ claude plugin uninstall typo3-development@PatFischer91/typo3_development
 
 Make sure the marketplace is added:
 ```bash
-/plugin marketplace add PatFischer91/typo3_development
+/plugin marketplace add PatFischer91/claude-typo3-dev
 ```
 
 ### MCP Server errors

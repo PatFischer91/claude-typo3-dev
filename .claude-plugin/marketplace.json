@@ -8,15 +8,15 @@
   },
   "plugins": [
     {
-      "name": "typo3-development",
-      "description": "Comprehensive TYPO3 development plugin with 19 commands, 10 skills, 6 agents, and Chrome DevTools integration for browser testing",
-      "version": "0.4.0",
+      "name": "typo3-dev",
+      "description": "Comprehensive TYPO3 development plugin with 20 commands, 10 skills, 6 agents, and Chrome DevTools integration for browser testing",
+      "version": "1.0.0",
       "author": {
         "name": "PatFischer91"
       },
-      "source": "./typo3-development",
+      "source": "./typo3-dev",
       "category": "development",
-      "homepage": "https://github.com/PatFischer91/typo3_development"
+      "homepage": "https://github.com/PatFischer91/claude-typo3-dev"
     }
   ]
 }
