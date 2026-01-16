@@ -99,20 +99,20 @@ See [Chrome DevTools Documentation](./docs/CHROME-DEVTOOLS.md)
 
 # Add marketplace and install
 /plugin marketplace add PatFischer91/typo3_development
-/plugin install typo3-development@typo3-development-marketplace
+/plugin install typo3-development@in2code
 ```
 
 ### Via CLI
 
 ```bash
 claude plugin marketplace add PatFischer91/typo3_development
-claude plugin install typo3-development@typo3-development-marketplace
+claude plugin install typo3-development@in2code
 ```
 
 ### Manual Installation
 
 ```bash
-git clone https://github.com/PatFischer91/typo3_development.git ~/.claude/plugins/typo3-development-marketplace
+git clone https://github.com/PatFischer91/typo3_development.git ~/.claude/plugins/in2code
 ```
 
 ### Requirements

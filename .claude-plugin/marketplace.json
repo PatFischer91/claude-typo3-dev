@@ -1,9 +1,9 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "typo3-development-marketplace",
-  "description": "TYPO3 Development Plugin for Claude Code - Coding standards, extension scaffolding, and best practices automation",
+  "name": "in2code",
+  "description": "in2code Claude Code Plugins - TYPO3 development tools, coding standards, and best practices automation",
   "owner": {
-    "name": "PatFischer91",
+    "name": "in2code",
     "email": "github@patfischer91.dev"
   },
   "plugins": [
