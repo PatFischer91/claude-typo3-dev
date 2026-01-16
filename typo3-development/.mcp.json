@@ -13,7 +13,7 @@
     "chrome-devtools": {
       "command": "npx",
       "args": [
-        "@anthropic-ai/mcp-devtools-server"
+        "chrome-devtools-mcp@latest"
       ],
       "env": {},
       "description": "Chrome DevTools integration for testing TYPO3 frontend in browser. Enables viewport screenshots, DOM inspection, network monitoring, and automated testing."
