@@ -114,15 +114,12 @@ claude plugin install typo3-development@typo3-development-marketplace
 git clone https://github.com/PatFischer91/typo3_development.git ~/.claude/plugins/typo3-development-marketplace
 ```
 
-### MCP Server Requirements (Optional)
+### MCP Server Requirements
 
-```bash
-# For TYPO3 Docs Server
-pip install mcp httpx
+The MCP servers install their dependencies automatically:
 
-# For Chrome DevTools
-npm install -g @anthropic-ai/mcp-devtools-server
-```
+- **TYPO3 Docs Server**: Requires `uv` ([install uv](https://docs.astral.sh/uv/getting-started/installation/))
+- **Chrome DevTools**: Requires `npx` (comes with Node.js)
 
 See [Installation Guide](./docs/INSTALLATION.md) for detailed instructions.
 
