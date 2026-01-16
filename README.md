@@ -98,21 +98,21 @@ See [Chrome DevTools Documentation](./docs/CHROME-DEVTOOLS.md)
 /plugin
 
 # Add marketplace and install
-/plugin marketplace add PatFischer91/typo3_development
-/plugin install typo3-development@in2code
+/plugin marketplace add PatFischer91/claude-typo3-dev
+/plugin install typo3-dev@in2code
 ```
 
 ### Via CLI
 
 ```bash
-claude plugin marketplace add PatFischer91/typo3_development
-claude plugin install typo3-development@in2code
+claude plugin marketplace add PatFischer91/claude-typo3-dev
+claude plugin install typo3-dev@in2code
 ```
 
 ### Manual Installation
 
 ```bash
-git clone https://github.com/PatFischer91/typo3_development.git ~/.claude/plugins/in2code
+git clone https://github.com/PatFischer91/claude-typo3-dev.git ~/.claude/plugins/in2code
 ```
 
 ### Requirements
@@ -172,28 +172,29 @@ The plugin includes **complete TYPO3 Coding Guidelines** loaded at session start
 - Modern patterns (DI, QueryBuilder, ResponseInterface)
 - Security best practices
 
-### Optional Project Configuration
+### Project Configuration
 
-Create `.claude/typo3-config.json`:
+The plugin uses a two-tier configuration system:
 
-```json
-{
-  "typo3Version": "12.4",
-  "extensionKey": "my_extension",
-  "vendorName": "MyVendor",
-  "autoEnforce": {
-    "codingStandards": true,
-    "dependencyInjection": true,
-    "securityChecks": true,
-    "fluidValidation": true
-  },
-  "phpCSFixerPath": "vendor/bin/php-cs-fixer"
-}
-```
+1. **Auto-Generated** (`.claude/typo3-project.json`)
+   - Created automatically when you run `/typo3:init` or open a TYPO3 project
+   - Detects TYPO3 version, installed extensions, project type (DDEV/Docker)
+   - Updated when project structure changes
+
+2. **Manual Overrides** (`.claude/typo3-config.json`)
+   - Optional file for custom preferences
+   - Overrides auto-detected settings
+   - Set default extension key, vendor name, tool paths
+   - Control which validations are enforced
+
+**Both files are optional.** The plugin works without configuration by using sensible defaults.
+
+For detailed configuration options and examples, see the [Configuration Guide](./docs/CONFIGURATION.md).
 
 ## Documentation
 
 - [Installation Guide](./docs/INSTALLATION.md) - How to install the plugin
+- [Configuration Guide](./docs/CONFIGURATION.md) - Project configuration options
 - [Feature Reference](./docs/FEATURES.md) - Complete feature documentation
 - [Chrome DevTools](./docs/CHROME-DEVTOOLS.md) - Browser testing setup
 
@@ -203,10 +204,10 @@ Create `.claude/typo3-config.json`:
 typo3_development/
 ├── .claude-plugin/
 │   └── marketplace.json      # Marketplace manifest
-├── typo3-development/        # Plugin directory
+├── typo3-dev/                # Plugin directory
 │   ├── .claude-plugin/
 │   │   └── plugin.json       # Plugin metadata
-│   ├── commands/             # 19 Slash commands
+│   ├── commands/             # 20 Slash commands
 │   │   ├── init.md           # Project initialization
 │   │   ├── extension.md      # Extension scaffolding
 │   │   ├── model.md          # Domain model generation
@@ -228,15 +229,6 @@ typo3_development/
 └── README.md
 ```
 
-## Contributing
-
-Contributions are welcome!
-
-1. Fork the repository
-2. Create feature branch
-3. Follow TYPO3 CGL
-4. Submit pull request
-
 ## License
 
 MIT License
@@ -251,4 +243,4 @@ MIT License
 
 ---
 
-**Version**: 0.4.0 | **Status**: Beta
+**Version**: 1.0.0 | **Status**: Stable

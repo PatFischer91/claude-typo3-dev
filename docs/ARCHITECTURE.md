@@ -443,7 +443,7 @@ https://github.com/in2code-de/claude-code-instructions/blob/main/CLAUDE.md
 ## File Structure
 
 ```
-typo3_development/
+typo3-dev/
 ├── .claude-plugin/
 │   └── plugin.json                    # Plugin metadata
 │

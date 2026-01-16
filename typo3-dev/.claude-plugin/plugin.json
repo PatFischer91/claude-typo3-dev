@@ -1,0 +1,13 @@
+{
+  "name": "typo3-dev",
+  "description": "Comprehensive TYPO3 development plugin for Claude Code with coding standards, extension scaffolding, and best practices automation",
+  "version": "1.0.0",
+  "author": {
+    "name": "PatFischer91",
+    "email": "github@patfischer91.dev"
+  },
+  "homepage": "https://github.com/PatFischer91/claude-typo3-dev",
+  "repository": "https://github.com/PatFischer91/claude-typo3-dev",
+  "license": "MIT",
+  "keywords": ["typo3", "extbase", "fluid", "cms", "development", "coding-standards", "claude-code"]
+}

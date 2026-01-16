@@ -572,7 +572,7 @@ public function listAction(): ResponseInterface
 ## File Structure
 
 ```
-typo3_development/
+typo3-dev/
 ├── .claude-plugin/
 │   └── plugin.json              # Plugin metadata
 ├── commands/                     # 14 slash commands
