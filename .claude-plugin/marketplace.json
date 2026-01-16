@@ -15,7 +15,7 @@
       "author": {
         "name": "PatFischer91"
       },
-      "source": ".",
+      "source": "./",
       "category": "development",
       "tags": ["typo3", "extbase", "fluid", "cms", "php", "coding-standards"]
     }
