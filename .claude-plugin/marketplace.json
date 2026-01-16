@@ -1,7 +1,6 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "typo3-development-marketplace",
-  "version": "1.0.0",
   "description": "TYPO3 Development Plugin for Claude Code - Coding standards, extension scaffolding, and best practices automation",
   "owner": {
     "name": "PatFischer91",
@@ -15,9 +14,9 @@
       "author": {
         "name": "PatFischer91"
       },
-      "source": "./",
+      "source": "./typo3-development",
       "category": "development",
-      "tags": ["typo3", "extbase", "fluid", "cms", "php", "coding-standards"]
+      "homepage": "https://github.com/PatFischer91/typo3_development"
     }
   ]
 }
