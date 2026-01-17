@@ -1,7 +1,7 @@
 {
   "name": "typo3-dev",
   "description": "Comprehensive TYPO3 development plugin for Claude Code with coding standards, extension scaffolding, and best practices automation",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "author": {
     "name": "PatFischer91",
     "email": "github@patfischer91.dev"

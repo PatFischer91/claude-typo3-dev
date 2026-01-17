@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 1.1.0 - 2026-01-17
+
+### Added
+
+- `/typo3:init` now performs a comprehensive project analysis, including:
+  - Makefile detection and available custom commands
+  - Docker Compose environment analysis (files, services, volumes)
+  - Frontend toolchain detection (Webpack, Vite, TypeScript, CSS tooling)
+  - Extension dependency analysis from local `composer.json` files
+  - Git context (current branch, recent commits, uncommitted changes)
+  - Composer configuration analysis (repositories, patches, scripts)
+
+### Changed
+
+- Expanded `CLAUDE.md` example to include all new analysis fields
+- Documented strict preservation of existing `CLAUDE.md` content (update-only)
+- README simplified to describe the `CLAUDE.md`-based configuration approach
+
+---
+
 ## [1.0.2] - 2024-01-17
 
 ### Fixed

@@ -171,25 +171,18 @@ The plugin includes **complete TYPO3 Coding Guidelines** loaded at session start
 - TYPO3-specific conventions (`defined('TYPO3') || die();`)
 - Modern patterns (DI, QueryBuilder, ResponseInterface)
 - Security best practices
-
+``
 ### Project Configuration
 
-The plugin uses a two-tier configuration system:
+Run `/typo3:init` to analyze your TYPO3 project and write comprehensive configuration to `CLAUDE.md`:
+- Auto-detects TYPO3 version, extensions, project type (DDEV/Docker/Composer)
+- Discovers development tools (PHP CS Fixer, PHPStan, Rector)
+- Identifies site configurations and languages
+- Applies version-specific guidelines
 
-1. **Auto-Generated** (`.claude/typo3-project.json`)
-   - Created automatically when you run `/typo3:init` or open a TYPO3 project
-   - Detects TYPO3 version, installed extensions, project type (DDEV/Docker)
-   - Updated when project structure changes
+The plugin uses standard Claude Code `CLAUDE.md` approach - no separate JSON files needed.
 
-2. **Manual Overrides** (`.claude/typo3-config.json`)
-   - Optional file for custom preferences
-   - Overrides auto-detected settings
-   - Set default extension key, vendor name, tool paths
-   - Control which validations are enforced
-
-**Both files are optional.** The plugin works without configuration by using sensible defaults.
-
-For detailed configuration options and examples, see the [Configuration Guide](./docs/CONFIGURATION.md).
+For detailed information, see the [Configuration Guide](./docs/CONFIGURATION.md).``
 
 ## Documentation
 
@@ -243,4 +236,4 @@ MIT License
 
 ---
 
-**Version**: 1.0.2 | **Status**: Stable
+**Version**: 1.1.0 | **Status**: Stable
