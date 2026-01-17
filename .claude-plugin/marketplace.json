@@ -10,7 +10,7 @@
     {
       "name": "typo3-dev",
       "description": "Comprehensive TYPO3 development plugin with 20 commands, 10 skills, 6 agents, and Chrome DevTools integration for browser testing",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": {
         "name": "PatFischer91"
       },
