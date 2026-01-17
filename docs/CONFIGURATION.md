@@ -1,322 +1,300 @@
 # Configuration Guide
 
-The TYPO3 Development Plugin uses a two-tier configuration system that balances automatic detection with manual control.
+The TYPO3 Development Plugin uses Claude Code's standard `CLAUDE.md` file for all project configuration.
 
-## Configuration Files Overview
+## Philosophy
 
-| File | Purpose | Created By | Priority |
-|------|---------|------------|----------|
-| `.claude/typo3-project.json` | Auto-detected project settings | Plugin | Low |
-| `.claude/typo3-config.json` | Manual overrides and preferences | User | High |
+Unlike previous versions, the plugin now follows Claude Code's standard approach:
+- **No separate JSON files** - Everything in CLAUDE.md (just like `/init`)
+- **Standard Claude Code behavior** - Works exactly like other Claude projects
+- **Simple and transparent** - Easy to read and edit manually
 
-## Auto-Generated Configuration
+## How It Works
 
-### `.claude/typo3-project.json`
+### 1. Session Start
 
-This file is automatically created by the plugin when:
-- You run `/typo3:init` command
-- The `SessionStart` hook detects a TYPO3 project
-- Any command needs project information
+When you open a TYPO3 project, the TYPO3 Coding Guidelines are **automatically loaded** into the session. This happens regardless of whether CLAUDE.md exists or not.
 
-**You should NOT edit this file manually.** The plugin regenerates it when needed.
+**You get:**
+- PSR-12 coding standards
+- TYPO3-specific conventions
+- Modern patterns (DI, QueryBuilder, ResponseInterface)
+- Security best practices
 
-#### Structure
+### 2. Project Initialization
 
-```json
-{
-  "analyzedAt": "2024-01-16T12:00:00Z",
-  "typo3": {
-    "version": "12.4.10",
-    "majorVersion": 12,
-    "isLTS": true,
-    "composerMode": true
-  },
-  "php": {
-    "version": "8.2",
-    "minVersion": "8.1"
-  },
-  "project": {
-    "type": "ddev",
-    "rootPath": "/var/www/html",
-    "publicPath": "public",
-    "configPath": "config"
-  },
-  "extensions": {
-    "installed": [
-      {
-        "key": "my_extension",
-        "vendor": "MyVendor",
-        "path": "packages/my_extension"
-      }
-    ]
-  },
-  "sites": [
-    {
-      "identifier": "main",
-      "base": "https://mysite.ddev.site/"
-    }
-  ],
-  "tools": {
-    "composer": true,
-    "phpCSFixer": "vendor/bin/php-cs-fixer",
-    "ddev": true,
-    "docker": false
-  },
-  "guidelines": {
-    "codingStandards": "PSR-12",
-    "typo3Version": "12.4"
-  }
-}
+When you run `/typo3:init`, the plugin analyzes your project and writes TYPO3-specific configuration to `CLAUDE.md`.
+
+**The command detects:**
+- TYPO3 version
+- PHP version
+- Project type (DDEV, Docker, Composer)
+- Installed extensions
+- Site configurations
+- Development tools
+
+**Everything is written to CLAUDE.md** (not separate files).
+
+## CLAUDE.md Structure
+
+After running `/typo3:init`, your CLAUDE.md might look like this:
+
+```markdown
+# Project: My TYPO3 Site
+
+## TYPO3 Configuration
+
+**TYPO3 Version**: 12.4.10 (LTS)
+**PHP Version**: 8.2 (min: 8.1)
+**Project Type**: DDEV + Composer Mode
+**Public Path**: public/
+**Config Path**: config/
+
+### Project Structure
+- Composer-based TYPO3 installation
+- DDEV local development environment
+- Modern TYPO3 v12 setup
+
+### Local Extensions
+- **my_shop** (MyVendor) v1.0.0
+  - Location: packages/my_shop/
+
+### Third-Party Extensions
+- news (georgringer/news)
+- powermail (in2code/powermail)
+
+### Sites
+- **main**: https://mysite.ddev.site/ (Languages: de, en)
+
+### Development Tools
+- ✅ PHP CS Fixer: vendor/bin/php-cs-fixer
+- ❌ PHPStan: Not installed
+- ✅ TYPO3 Testing Framework
+
+### TYPO3 v12 Guidelines for This Project
+
+Apply these version-specific best practices:
+
+1. **Controllers**: All actions MUST return ResponseInterface
+2. **Dependency Injection**: Constructor-based DI only (ObjectManager removed)
+3. **TCA**: Use modern types (number, datetime, etc.)
+4. **Events**: PSR-14 Events only (no legacy hooks)
+5. **Request**: Use request attributes instead of $GLOBALS['TSFE']
+6. **Database**: QueryBuilder with named parameters only
+7. **Strict Types**: Always use `declare(strict_types=1);`
+8. **Config Files**: Use `defined('TYPO3') || die();` (not `or die()`)
+
+### Recommendations
+- Install PHPStan: `composer require --dev phpstan/phpstan`
+- Install Rector: `composer require --dev ssch/typo3-rector`
 ```
 
-#### What Gets Detected
+## Customization
 
-**TYPO3 Version:**
-- Reads from `composer.json` (typo3/cms-core version)
-- Checks `typo3conf/ext/` vs `public/typo3conf/ext/` for composer mode
-- Determines LTS status (v11, v12, v13)
+You can **edit CLAUDE.md manually** to customize behavior:
 
-**PHP Version:**
-- From `composer.json` platform requirements
-- From DDEV `.ddev/config.yaml`
+### Add Custom Guidelines
 
-**Project Type:**
-- DDEV: Detects `.ddev/` directory
-- Docker: Detects `docker-compose.yml`
-- Native: Neither DDEV nor Docker
+```markdown
+## Custom Development Guidelines
 
-**Extensions:**
-- Scans `packages/` and `typo3conf/ext/`
-- Reads extension keys and vendor names
-- Identifies active development extensions
+- Always use English for variable names
+- Prefix all my extensions with "acme_"
+- Use PSR-4 autoloading
+```
 
-**Tools:**
-- PHP CS Fixer: Checks `vendor/bin/php-cs-fixer`
-- Composer: Checks `composer.json`
-- DDEV/Docker: Checks config files
+### Override Detected Values
 
-#### Used By
+If the plugin detected wrong values, just edit CLAUDE.md:
 
-This configuration is used by:
-- `project-aware` skill - Adapts suggestions to your TYPO3 version
-- All commands - Uses correct paths and versions
-- Hooks - Validates against your project standards
-- Agents - Knows which TYPO3 APIs are available
+```markdown
+**TYPO3 Version**: 13.0 (not 12.4 - we're on edge branch)
+```
 
-#### When to Regenerate
+### Add Extension-Specific Notes
 
-Run `/typo3:init` after:
+```markdown
+### my_shop Extension
+
+- Main entry point: Classes/Controller/ShopController.php
+- Uses custom payment provider: Stripe
+- Database tables: tx_myshop_orders, tx_myshop_products
+```
+
+## Workflow
+
+### First Time Setup
+
+```bash
+# In your TYPO3 project
+claude
+
+# Run init to analyze project
+/typo3:init
+
+# CLAUDE.md is created with TYPO3 config
+```
+
+### After Major Changes
+
+Re-run `/typo3:init` after:
 - TYPO3 version upgrade
-- Adding/removing extensions
+- Adding new extensions
 - Changing project structure
 - Switching environments (DDEV ↔ Docker)
 
-## Manual Configuration
+### Manual Editing
 
-### `.claude/typo3-config.json`
+```bash
+# Edit CLAUDE.md with your favorite editor
+vim CLAUDE.md
 
-Create this file to **override** auto-detected settings or set custom preferences.
-
-This is optional - the plugin works without it.
-
-#### Use Cases
-
-1. **Force Specific TYPO3 Version Behavior**
-   ```json
-   {
-     "typo3Version": "12.4"
-   }
-   ```
-   Forces v12 patterns even if v11 is detected (useful during upgrades).
-
-2. **Set Default Extension for Commands**
-   ```json
-   {
-     "extensionKey": "my_shop",
-     "vendorName": "MyVendor"
-   }
-   ```
-   Pre-fills extension key in `/typo3:model`, `/typo3:plugin`, etc.
-
-3. **Configure Coding Standards Enforcement**
-   ```json
-   {
-     "autoEnforce": {
-       "codingStandards": true,
-       "dependencyInjection": true,
-       "securityChecks": true,
-       "fluidValidation": true
-     }
-   }
-   ```
-   Controls which PreToolUse hooks are active.
-
-4. **Set Custom Tool Paths**
-   ```json
-   {
-     "phpCSFixerPath": "vendor/bin/php-cs-fixer",
-     "phpStanPath": "vendor/bin/phpstan"
-   }
-   ```
-   Overrides auto-detected tool locations.
-
-#### Full Example
-
-```json
-{
-  "typo3Version": "12.4",
-  "extensionKey": "my_shop",
-  "vendorName": "Acme",
-  "autoEnforce": {
-    "codingStandards": true,
-    "dependencyInjection": true,
-    "securityChecks": true,
-    "fluidValidation": true
-  },
-  "phpCSFixerPath": "vendor/bin/php-cs-fixer",
-  "defaultNamespace": "Acme\\MyShop",
-  "testFramework": "phpunit"
-}
+# Or ask Claude to update it
+"Please add a note to CLAUDE.md that all new models should use UUID primary keys"
 ```
 
-#### Available Options
+## Comparison: Old vs New Approach
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `typo3Version` | string | Auto-detected | Force TYPO3 version (e.g., "12.4") |
-| `extensionKey` | string | - | Default extension key for commands |
-| `vendorName` | string | - | Default vendor name (e.g., "MyVendor") |
-| `autoEnforce.codingStandards` | boolean | true | Enable PSR-12/CGL validation |
-| `autoEnforce.dependencyInjection` | boolean | true | Prefer DI over static calls |
-| `autoEnforce.securityChecks` | boolean | true | Check for XSS/SQL injection |
-| `autoEnforce.fluidValidation` | boolean | true | Validate Fluid templates |
-| `phpCSFixerPath` | string | Auto-detected | Path to PHP CS Fixer |
-| `phpStanPath` | string | - | Path to PHPStan |
-| `defaultNamespace` | string | Auto-generated | Default PHP namespace |
-| `testFramework` | string | "phpunit" | Test framework to use |
+| Aspect | Old (v1.0.0-1.0.1) | New (v1.0.2+) |
+|--------|-------------------|---------------|
+| **Config Location** | `.claude/typo3-project.json` | `CLAUDE.md` |
+| **Manual Overrides** | `.claude/typo3-config.json` | Edit `CLAUDE.md` |
+| **How to Update** | Re-run `/typo3:init` | Edit CLAUDE.md or re-run `/typo3:init` |
+| **Visibility** | Hidden in .claude/ | Visible in project root |
+| **Editability** | JSON (error-prone) | Markdown (easy to read/edit) |
+| **Claude Code Standard** | ❌ Custom approach | ✅ Standard /init approach |
 
-## Configuration Priority
+## Benefits of CLAUDE.md Approach
 
-When both files exist, values are merged with this priority:
+**Simpler:**
+- One file instead of two
+- Standard Claude Code behavior
+- No special plugin-specific files
 
-1. **Manual config** (`.claude/typo3-config.json`) - Highest priority
-2. **Auto-detected** (`.claude/typo3-project.json`) - Fallback
-3. **Plugin defaults** - Last resort
+**More Transparent:**
+- CLAUDE.md is in project root (visible)
+- Easy to read and understand
+- Easy to edit manually
 
-### Example Merge
+**Better Integration:**
+- Works like `/init`
+- Consistent with other Claude projects
+- Other team members understand it immediately
 
-**Auto-detected** (`.claude/typo3-project.json`):
-```json
-{
-  "typo3": {
-    "version": "11.5.30",
-    "majorVersion": 11
-  },
-  "extensionKey": null
-}
-```
-
-**Manual override** (`.claude/typo3-config.json`):
-```json
-{
-  "typo3Version": "12.4",
-  "extensionKey": "my_shop"
-}
-```
-
-**Merged result:**
-```json
-{
-  "typo3": {
-    "version": "12.4",     // From manual config
-    "majorVersion": 12     // Updated based on manual version
-  },
-  "extensionKey": "my_shop" // From manual config
-}
-```
-
-## Working Without Configuration
-
-The plugin is designed to work without any configuration files:
-
-- Commands prompt for required information (extension key, vendor name)
-- Skills use generic TYPO3 best practices
-- Hooks apply universal coding standards
-- Agents validate against common patterns
-
-Configuration just makes the experience smoother by pre-filling values and adapting to your specific setup.
-
-## Best Practices
-
-### For Development
-
-Create `.claude/typo3-config.json` with your preferences:
-```json
-{
-  "extensionKey": "my_extension",
-  "vendorName": "MyVendor",
-  "autoEnforce": {
-    "codingStandards": true,
-    "securityChecks": true
-  }
-}
-```
-
-### For CI/CD
-
-Commit `.claude/typo3-project.json` to version control so all developers have the same detected configuration.
-
-### During Upgrades
-
-1. Set target version in `.claude/typo3-config.json`:
-   ```json
-   {
-     "typo3Version": "12.4"
-   }
-   ```
-2. Run `/typo3:upgrade 11.5 12.4`
-3. After upgrade completes, remove manual override
-4. Run `/typo3:init` to detect new version
+**Version Control Friendly:**
+- Commit CLAUDE.md to Git
+- Team shares same configuration
+- Easy to review changes
 
 ## Troubleshooting
 
-### Configuration Not Applied
+### Plugin Not Working
 
-1. Check file location (must be in `.claude/` at project root)
-2. Validate JSON syntax (use a JSON linter)
-3. Run `/typo3:init` to regenerate auto-detected config
-4. Restart Claude Code session
+**Check:** Is the plugin enabled?
+```bash
+/plugin installed
+```
+
+### Guidelines Not Applied
+
+**Solution:** The TYPO3 Coding Guidelines are loaded automatically at session start. You don't need CLAUDE.md for basic guidelines.
+
+For project-specific adaptations, run `/typo3:init`.
+
+### CLAUDE.md Not Created
+
+**Check:** Did you run `/typo3:init`?
+```bash
+/typo3:init
+```
 
 ### Wrong TYPO3 Version Detected
 
-Override in `.claude/typo3-config.json`:
-```json
-{
-  "typo3Version": "12.4"
-}
+**Solution:** Edit CLAUDE.md manually and change the version:
+```markdown
+**TYPO3 Version**: 12.4 (manually set)
 ```
 
-### Commands Ask for Extension Key Every Time
+### Old JSON Files Present
 
-Set default in `.claude/typo3-config.json`:
-```json
-{
-  "extensionKey": "my_extension",
-  "vendorName": "MyVendor"
-}
+If you upgraded from v1.0.0-1.0.1, you might have old JSON files:
+
+```bash
+# Remove old files (optional, they're ignored now)
+rm .claude/typo3-project.json
+rm .claude/typo3-config.json
 ```
 
-### PHP CS Fixer Not Found
+The plugin no longer uses or creates these files.
 
-Specify path in `.claude/typo3-config.json`:
-```json
-{
-  "phpCSFixerPath": "vendor/bin/php-cs-fixer"
-}
+## Migration from v1.0.0-1.0.1
+
+If you're upgrading from an older version with JSON files:
+
+1. **Remove old JSON files** (optional):
+   ```bash
+   rm .claude/typo3-project.json
+   rm .claude/typo3-config.json
+   ```
+
+2. **Run `/typo3:init`** to create CLAUDE.md:
+   ```bash
+   /typo3:init
+   ```
+
+3. **Check CLAUDE.md** was created:
+   ```bash
+   cat CLAUDE.md
+   ```
+
+4. **Manually add custom preferences** from old `.claude/typo3-config.json` to CLAUDE.md if needed
+
+## Example CLAUDE.md Templates
+
+### Minimal CLAUDE.md
+
+```markdown
+# TYPO3 Project
+
+**TYPO3 Version**: 12.4
+**Project Type**: Composer
+
+Use TYPO3 v12 best practices.
 ```
+
+### Detailed CLAUDE.md
+
+See full example in "CLAUDE.md Structure" section above.
+
+### Multi-Project CLAUDE.md
+
+```markdown
+# TYPO3 Multi-Site Project
+
+## Main Site (www.example.com)
+**TYPO3 Version**: 12.4
+**Site Identifier**: main
+
+## Shop (shop.example.com)
+**TYPO3 Version**: 12.4
+**Site Identifier**: shop
+**Extensions**: tx_myshop
+
+## Blog (blog.example.com)
+**TYPO3 Version**: 11.5 (legacy)
+**Site Identifier**: blog
+```
+
+## Best Practices
+
+1. **Commit CLAUDE.md to Git** - Share configuration with your team
+2. **Update after major changes** - Keep CLAUDE.md current
+3. **Document custom decisions** - Add notes about your architecture
+4. **Use markdown formatting** - Make it readable
+5. **Keep it concise** - Only include relevant information
 
 ## Related Documentation
 
 - [Installation Guide](./INSTALLATION.md) - How to install the plugin
 - [Feature Reference](./FEATURES.md) - Available commands and skills
-- [Architecture](./ARCHITECTURE.md) - How the plugin works internally
+- [TYPO3 Init Command](../typo3-dev/commands/init.md) - Detailed init documentation

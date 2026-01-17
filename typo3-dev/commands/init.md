@@ -1,23 +1,19 @@
 ---
-description: Deep analysis of TYPO3 project with detailed configuration. Auto-runs on new projects, use manually for deeper analysis or reconfiguration.
-allowed-tools: Read, Glob, Grep, Bash, Write
+description: Deep analysis of TYPO3 project - detects version, extensions, tools and writes comprehensive config to CLAUDE.md
+allowed-tools: Read, Glob, Grep, Bash, Write, Edit
 ---
 
 # TYPO3 Project Initialization
 
-Performs a detailed analysis of the TYPO3 project and creates comprehensive configuration.
-
-## Auto-Initialization
-
-**Important:** Basic project detection happens AUTOMATICALLY at session start for TYPO3 projects that haven't been initialized yet (no `CLAUDE.md` in project root). When you run the standard `/init` command, it creates `CLAUDE.md` - after that, auto-detection won't run again. You don't need to run `/typo3:init` manually in most cases.
+Performs a detailed analysis of your TYPO3 project and writes all configuration to `CLAUDE.md` (just like the standard `/init` command, but with TYPO3-specific analysis).
 
 ## When to Use This Command
 
-Run `/typo3:init` manually when you want:
-- **Deeper analysis** with site configurations, installed extensions, dev tools
-- **Reconfiguration** after major project changes
-- **Detailed report** of project structure and recommendations
-- **Force refresh** of `.claude/typo3-project.json`
+Run `/typo3:init` when you want:
+- **Detailed TYPO3 analysis** with version detection, extensions, site configs
+- **Project initialization** with TYPO3-specific guidelines in CLAUDE.md
+- **Reconfiguration** after TYPO3 version upgrades or major changes
+- **Update CLAUDE.md** with current project state
 
 ## Usage
 
@@ -33,8 +29,8 @@ Run `/typo3:init` manually when you want:
 2. **Identifies Project Structure** (Composer mode, legacy, DDEV, etc.)
 3. **Finds Extensions** and their versions
 4. **Analyzes Configuration** (Sites, TypoScript, TCA)
-5. **Creates `.claude/typo3-project.json`** with all findings
-6. **Adjusts Guidelines** to match the detected version
+5. **Writes comprehensive project info to `CLAUDE.md`**
+6. **Includes TYPO3-specific guidelines** for the detected version
 
 ## Steps
 
@@ -129,65 +125,65 @@ ls -la vendor/bin/rector
 grep "typo3/testing-framework" composer.json
 ```
 
-### Step 7: Generate Project Configuration
+### Step 7: Write Project Configuration to CLAUDE.md
 
-Create `.claude/typo3-project.json`:
+Create or update `CLAUDE.md` in the project root with TYPO3-specific project information.
 
-```json
-{
-  "analyzedAt": "2024-01-16T12:00:00Z",
-  "typo3": {
-    "version": "12.4.10",
-    "majorVersion": 12,
-    "isLTS": true,
-    "composerMode": true
-  },
-  "php": {
-    "version": "8.2",
-    "minVersion": "8.1"
-  },
-  "project": {
-    "type": "ddev",
-    "rootPath": "/var/www/html",
-    "publicPath": "public",
-    "configPath": "config"
-  },
-  "extensions": {
-    "local": [
-      {
-        "key": "my_extension",
-        "vendor": "MyVendor",
-        "path": "packages/my_extension",
-        "version": "1.0.0"
-      }
-    ],
-    "thirdParty": [
-      "news",
-      "powermail",
-      "mask"
-    ]
-  },
-  "sites": [
-    {
-      "identifier": "main",
-      "base": "https://example.com/",
-      "languages": ["de", "en"]
-    }
-  ],
-  "tools": {
-    "phpCsFixer": true,
-    "phpstan": false,
-    "rector": false,
-    "testingFramework": true
-  },
-  "guidelines": {
-    "useStrictTypes": true,
-    "definedGuard": "|| die()",
-    "diMethod": "constructor",
-    "tcaTypes": "modern",
-    "responseInterface": true
-  }
-}
+**If CLAUDE.md exists**: Read it first and append/update the TYPO3 section.
+**If CLAUDE.md doesn't exist**: Create it with standard init format + TYPO3 section.
+
+Example CLAUDE.md content:
+
+```markdown
+# Project: [Project Name]
+
+## TYPO3 Configuration
+
+**TYPO3 Version**: 12.4.10 (LTS)
+**PHP Version**: 8.2 (min: 8.1)
+**Project Type**: DDEV + Composer Mode
+**Public Path**: public/
+**Config Path**: config/
+
+### Project Structure
+- Composer-based TYPO3 installation
+- DDEV local development environment
+- Modern TYPO3 v12 setup
+
+### Local Extensions
+- **my_extension** (MyVendor) v1.0.0
+  - Location: packages/my_extension/
+
+### Third-Party Extensions
+- news (georgringer/news)
+- powermail (in2code/powermail)
+- mask (mask/mask)
+
+### Sites
+- **main**: https://example.com/ (Languages: de, en)
+
+### Development Tools
+- ✅ PHP CS Fixer: vendor/bin/php-cs-fixer
+- ❌ PHPStan: Not installed
+- ❌ Rector: Not installed
+- ✅ TYPO3 Testing Framework
+
+### TYPO3 v12 Guidelines for This Project
+
+Apply these version-specific best practices:
+
+1. **Controllers**: All actions MUST return ResponseInterface
+2. **Dependency Injection**: Constructor-based DI only (ObjectManager removed)
+3. **TCA**: Use modern types (number, datetime, etc.)
+4. **Events**: PSR-14 Events only (no legacy hooks)
+5. **Request**: Use request attributes instead of $GLOBALS['TSFE']
+6. **Database**: QueryBuilder with named parameters only
+7. **Strict Types**: Always use `declare(strict_types=1);`
+8. **Config Files**: Use `defined('TYPO3') || die();` (not `or die()`)
+
+### Recommendations
+- Install PHPStan: `composer require --dev phpstan/phpstan`
+- Install Rector: `composer require --dev ssch/typo3-rector`
 ```
 
 ### Step 8: Display Analysis Report
@@ -289,7 +285,7 @@ Project: TYPO3 12.4.10 (Composer/DDEV)
 Extensions: 1 local, 3 third-party
 Sites: 1 configured
 
-Configuration saved to: .claude/typo3-project.json
+Configuration written to: CLAUDE.md
 
 I'm now configured for your specific setup.
 All my suggestions will match TYPO3 12.4 best practices.
@@ -302,8 +298,8 @@ Try these commands:
 
 ## Important Notes
 
-- **Auto-init** happens at session start for new projects (no CLAUDE.md yet)
-- This command provides **deeper analysis** than auto-init
-- The analysis is saved to `.claude/typo3-project.json`
-- You can edit the JSON to customize behavior
+- This command writes TYPO3-specific project info to **CLAUDE.md** (just like `/init`)
+- All project configuration is stored in CLAUDE.md (no separate JSON files)
+- The TYPO3-specific guidelines are loaded automatically at session start
 - Re-run after major project changes (new extensions, TYPO3 upgrade, etc.)
+- You can edit CLAUDE.md manually to customize behavior

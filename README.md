@@ -243,4 +243,4 @@ MIT License
 
 ---
 
-**Version**: 1.0.1 | **Status**: Stable
+**Version**: 1.0.2 | **Status**: Stable

@@ -4,16 +4,8 @@
       {
         "hooks": [
           {
-            "type": "command",
-            "command": "if [ -f CLAUDE.md ]; then echo 'PROJECT_INITIALIZED'; if [ -f .claude/typo3-project.json ]; then echo 'TYPO3_CONFIG:'; cat .claude/typo3-project.json; fi; else echo 'NEW_PROJECT'; if [ -f composer.json ] && grep -q 'typo3/cms-core' composer.json 2>/dev/null; then echo 'TYPO3_PROJECT_DETECTED'; echo 'TYPO3_VERSION:'; grep -A2 '\"typo3/cms-core\"' composer.lock 2>/dev/null | grep version | head -1 || grep '\"typo3/cms-core\"' composer.json; echo 'PHP_VERSION:'; grep '\"php\"' composer.json 2>/dev/null || php -v 2>/dev/null | head -1; echo 'PROJECT_TYPE:'; if [ -f .ddev/config.yaml ]; then echo 'ddev'; elif [ -d vendor ]; then echo 'composer'; else echo 'legacy'; fi; echo 'EXTENSIONS:'; ls packages/ 2>/dev/null || ls public/typo3conf/ext/ 2>/dev/null || echo 'none'; fi; fi"
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
             "type": "prompt",
-            "prompt": "IMPORTANT - Auto-Initialize TYPO3 Project:\n\n1. If output shows 'NEW_PROJECT' AND 'TYPO3_PROJECT_DETECTED':\n   - This TYPO3 project has no CLAUDE.md yet (not initialized with /init)\n   - AUTOMATICALLY analyze the project from the command output\n   - Create .claude/typo3-project.json with detected settings\n   - Inform the user briefly what was detected (TYPO3 version, project type)\n   - Adapt ALL suggestions to the detected TYPO3 version\n\n2. If output shows 'PROJECT_INITIALIZED' with 'TYPO3_CONFIG:':\n   - CLAUDE.md exists in project root, project was initialized\n   - Parse the typo3-project.json and adapt to that version\n   - No auto-initialization needed\n\n3. If output shows 'PROJECT_INITIALIZED' without 'TYPO3_CONFIG:':\n   - CLAUDE.md exists but no TYPO3 config yet\n   - User can run /typo3:init manually for TYPO3-specific setup\n\n4. If 'NEW_PROJECT' but no TYPO3 detected:\n   - Not a TYPO3 project, skip TYPO3-specific behavior\n\nApply the following TYPO3 Coding Guidelines throughout this session:\n\n## PHP/TYPO3 Development Standards\n\n### Code Style (PSR-12)\n- 4 spaces indentation (no tabs)\n- Opening braces on new line for classes/methods\n- Max 120 chars per line\n- Use single quotes for strings\n- Always use `declare(strict_types=1);` after `<?php`\n- Config files: `defined('TYPO3') || die();` (NOT `or die()`!)\n\n### Namespacing\n- Format: `Vendor\\ExtensionKey\\ComponentType\\`\n- Vendor name in StudlyCase\n- Extension key in StudlyCase (even with underscores)\n\n### Dependency Injection\n- ALWAYS use constructor injection with `private readonly`\n- NEVER use ObjectManager (removed in v12)\n- NEVER use GeneralUtility::makeInstance() for services\n- Services auto-wired via Services.yaml\n\n### Database Queries\n- ALWAYS use Doctrine DBAL QueryBuilder\n- ALWAYS use createNamedParameter() with PDO types\n- NEVER use $GLOBALS['TYPO3_DB'] (removed in v10)\n- NEVER concatenate user input into SQL\n\n### Controllers\n- Keep controllers SLIM - move business logic to services\n- All actions MUST return ResponseInterface\n- NEVER use $GLOBALS['TSFE'] - use request attributes\n- NEVER access $_GET, $_POST, $_SESSION directly\n- Use $this->request instead\n\n### Fluid Templates\n- NO business logic in templates - only presentation\n- Use ViewHelpers for complex presentation logic\n- NEVER use f:format.raw() on user input (XSS!)\n- Prepare data in Controller/Service, not template\n\n### HTTP Requests\n- Use RequestFactory instead of GeneralUtility::getUrl()\n- Use RequestFactory instead of raw cURL\n\n### Events\n- Use PSR-14 Events instead of old hook system\n- Register listeners in Services.yaml\n\n### TCA Configuration\n- Start with `defined('TYPO3') || die();`\n- Return array (not $GLOBALS['TCA'][...] = [...])\n- Include ctrl section with label, tstamp, crdate, delete\n- Add language support fields (sys_language_uid, l10n_parent)\n- Include enablecolumns (hidden, starttime, endtime)\n\n### Security\n- Validate all user input\n- QueryBuilder with named parameters (never concatenate SQL)\n- Fluid escapes by default - be careful with f:format.raw()\n- Validate file uploads (type, size, content)\n- Never log passwords or tokens\n\n### Directory Structure\n- PHP logic belongs in Classes/Domain/ (or subdirectories)\n- Business logic in Services, not Controllers\n- Data access only in Repositories\n\nThese guidelines are based on TYPO3 CGL and PSR-12. Apply them automatically when writing or reviewing code."
+            "prompt": "Apply the following TYPO3 Coding Guidelines throughout this session:\n\n## PHP/TYPO3 Development Standards\n\n### Code Style\n- Adhere to PSR-12 for all PHP files\n- Use the existing .editorconfig for indentation and formatting\n- Follow the style of existing project files\n- Use only single quotes (`'`) for PHP strings\n- Prioritize type safety\n- Prefer `$variable === false` instead of `!$variable`\n- Avoid early returns in PHP functions\n- Don't use generic exceptions (e.g., RuntimeException); implement custom exceptions\n- Catch global exceptions using `\\Throwable` rather than `\\Exception`\n- Use constants for central values (limits, database constants, etc.)\n- Use enums where appropriate\n- Minimize fully qualified names (FQN) where possible\n- Always use `declare(strict_types=1);` after `<?php`\n- Config files: `defined('TYPO3') || die();` (NOT `or die()`!)\n\n### Code Quality & Clean Code\nAvoid these code smells:\n- Long Methods (> 20-30 lines) - break into smaller units\n- Large Classes (> 300 lines) - split responsibilities\n- Duplicate Code - extract into methods/services\n- Too Many Parameters (> 3-4) - refactor or use objects\n- Deep Nesting (> 3 levels) - simplify control flow\n- Magic Numbers and Strings - use named constants\n\nAdditional practices:\n- Use descriptive variable and method names\n- Apply Single Responsibility Principle\n- Follow DRY principle by extracting repeated code\n- Reduce complexity with early returns instead of nested conditionals\n- Prefer readable names over inline comments\n\n### Namespacing\n- Format: `Vendor\\ExtensionKey\\ComponentType\\`\n- Vendor name in StudlyCase\n- Extension key in StudlyCase (even with underscores)\n\n### Dependency Injection\n- ALWAYS use constructor injection with `private readonly`\n- NEVER use ObjectManager (removed in v12)\n- NEVER use GeneralUtility::makeInstance() for services\n- Services auto-wired via Services.yaml\n\n### Database Queries\n- ALWAYS use Doctrine DBAL QueryBuilder\n- ALWAYS use createNamedParameter() with PDO types\n- NEVER use $GLOBALS['TYPO3_DB'] (removed in v10)\n- NEVER concatenate user input into SQL\n\n### Controllers\n- Keep controllers SLIM - move business logic to services\n- All actions MUST return ResponseInterface\n- NEVER use $GLOBALS['TSFE'] - use request attributes\n- NEVER access $_GET, $_POST, $_SESSION directly\n- Use $this->request instead\n\n### Fluid Templates\n- NO business logic in templates - only presentation\n- Use ViewHelpers for complex presentation logic\n- NEVER use f:format.raw() on user input (XSS!)\n- Prepare data in Controller/Service, not template\n\n### HTTP Requests\n- Use RequestFactory instead of GeneralUtility::getUrl()\n- Use RequestFactory instead of raw cURL\n\n### Events\n- Use PSR-14 Events instead of old hook system\n- Register listeners in Services.yaml\n\n### TCA Configuration\n- Start with `defined('TYPO3') || die();`\n- Return array (not $GLOBALS['TCA'][...] = [...])\n- Include ctrl section with label, tstamp, crdate, delete\n- Add language support fields (sys_language_uid, l10n_parent)\n- Include enablecolumns (hidden, starttime, endtime)\n- Don't define table fields in ext_tables.sql if already in TCA (unless SQL indexes needed)\n\n### Security\n- Validate all user input\n- QueryBuilder with named parameters (never concatenate SQL)\n- Fluid escapes by default - be careful with f:format.raw()\n- Validate file uploads (type, size, content)\n- Never log passwords or tokens\n\n### Directory Structure\n- PHP logic belongs in Classes/Domain/ (or subdirectories)\n- Business logic in Services, not Controllers\n- Data access only in Repositories\n\n### Anti-Patterns to Avoid\n- Business logic in Fluid templates\n- Direct $_GET, $_POST, $_SESSION access\n- Static utility calls where DI is possible\n- SQL queries outside repositories\n- Error suppression using @\n\n### Best Practices\n- Write meaningful commit messages following Conventional Commits convention\n- Document complex logic inline\n- Never hardcode strings; use XLIFF localization\n- Create unit tests for new business logic\n\n### Workflow\n- Review existing code patterns before implementation\n- Ask about architectural decisions before coding\n- Prioritize refactoring over new features\n- Report identified code smells during work\n\nThese guidelines are based on TYPO3 CGL and PSR-12. Apply them automatically when writing or reviewing code."
           }
         ]
       }
@@ -65,63 +57,6 @@
           {
             "type": "prompt",
             "prompt": "After modifying ext_tables.sql, remind user to run: typo3 extension:setup to update database schema"
-          }
-        ]
-      }
-    ],
-
-    "UserPromptSubmit": [
-      {
-        "matcher": "controller|extbase|action",
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "When creating/modifying Extbase controllers, apply TYPO3 best practices:\n\n1. Slim controllers - move business logic to services\n2. Constructor-based dependency injection\n3. All actions return ResponseInterface\n4. No $GLOBALS['TSFE'] access\n5. Use $this->request instead of direct $_GET/$_POST\n6. Validation via Extbase validators or manual checks"
-          }
-        ]
-      },
-      {
-        "matcher": "model|domain|repository",
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "When working with Domain Models and Repositories:\n\n1. Models extend AbstractEntity\n2. Use proper type declarations (declare(strict_types=1);)\n3. Repositories use QueryBuilder for complex queries\n4. Always use named parameters in queries\n5. Models can have business logic methods (not just getters/setters)\n6. Repositories handle all data access"
-          }
-        ]
-      },
-      {
-        "matcher": "query|database|sql",
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "When writing database queries:\n\n1. Use Doctrine DBAL QueryBuilder\n2. Always use createNamedParameter() to prevent SQL injection\n3. Specify PDO types (\\PDO::PARAM_INT, \\PDO::PARAM_STR)\n4. Never use $GLOBALS['TYPO3_DB'] (removed in v10)\n5. Never concatenate user input into queries\n6. Use Connection::PARAM_INT_ARRAY for IN() clauses\n7. Respect TYPO3 query restrictions (deleted, hidden, etc.)"
-          }
-        ]
-      },
-      {
-        "matcher": "viewhelper|fluid|template",
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "When working with Fluid templates and ViewHelpers:\n\n1. No business logic in templates\n2. Create custom ViewHelpers for complex presentation logic\n3. Be careful with f:format.raw() - never use on user input\n4. Use proper template structure (Layouts, Templates, Partials)\n5. ViewHelpers should extend AbstractViewHelper\n6. Use renderStatic() for better performance"
-          }
-        ]
-      },
-      {
-        "matcher": "migration|upgrade|deprecated",
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "When dealing with TYPO3 upgrades or deprecated code:\n\n1. Check docs.typo3.org changelog for breaking changes\n2. Replace GeneralUtility::getUrl() with RequestFactory\n3. Replace $GLOBALS['TSFE'] with request attributes\n4. Replace ObjectManager with constructor injection\n5. Update old hook system to PSR-14 Events\n6. Replace deprecated TCA types with TYPO3 v12+ types\n7. Use /typo3:upgrade command for assistance"
-          }
-        ]
-      },
-      {
-        "matcher": "security|xss|injection|vulnerability",
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "When addressing security concerns:\n\n1. Validate all user input\n2. Use QueryBuilder with named parameters (never concatenate SQL)\n3. Escape output in templates (Fluid does this by default)\n4. Never use f:format.raw() on user input\n5. Don't access $_GET, $_POST, $_SESSION directly\n6. Validate file uploads (type, size, content)\n7. Use HTTPS for production\n8. Don't expose sensitive data in logs or error messages"
           }
         ]
       }

@@ -4,9 +4,46 @@ All notable changes to the TYPO3 Development Plugin will be documented in this f
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
 ---
 
-## 1.0.1 - 2026-01-17
+## [1.0.2] - 2024-01-17
+
+### Fixed
+
+**Critical Bug Fixes** - Plugin no longer interferes with normal Claude Code usage
+
+- **Removed blocking UserPromptSubmit hooks** that prevented commands from running
+  - Commands like `/typo3:init` and `/typo3:test` were blocked by overly aggressive hooks
+  - Normal conversation was interrupted by hooks matching common words (query, model, etc.)
+  - Plugin now only runs hooks when actually writing code (PreToolUse/PostToolUse)
+
+### Changed
+
+**Architecture: Switched to CLAUDE.md approach**
+
+- **No more separate JSON files** - Configuration now stored in `CLAUDE.md` (standard Claude Code approach)
+- `/typo3:init` now writes to `CLAUDE.md` instead of `.claude/typo3-project.json`
+- Simplified SessionStart hook - only loads TYPO3 Coding Guidelines
+- **Restored complete coding guidelines** from in2code-de/claude-code-instructions
+- Updated `docs/CONFIGURATION.md` with new CLAUDE.md-based documentation
+
+### Migration
+
+**For users upgrading from v1.0.0-1.0.1:**
+
+1. Old `.claude/typo3-project.json` and `.claude/typo3-config.json` files are no longer used (safe to delete)
+2. Run `/typo3:init` to create `CLAUDE.md` with project configuration
+3. Plugin no longer blocks normal usage - works seamlessly with Claude Code
+
+### Breaking Changes
+
+- Configuration files changed from JSON to CLAUDE.md (but plugin works without any config)
+- Old JSON files in `.claude/` directory are ignored
+
+---
+
+## [1.0.1] - 2024-01-17
 
 ### Fixed
 - Wrapped `SessionStart` entries in `hooks` arrays to satisfy Claude Code hooks schema and prevent plugin load errors
