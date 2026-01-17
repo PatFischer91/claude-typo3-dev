@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **No more separate JSON files** - Configuration now stored in `CLAUDE.md` (standard Claude Code approach)
 - `/typo3:init` now writes to `CLAUDE.md` instead of `.claude/typo3-project.json`
 - Simplified SessionStart hook - only loads TYPO3 Coding Guidelines
+- **Restored complete coding guidelines** from in2code-de/claude-code-instructions
 - Updated `docs/CONFIGURATION.md` with new CLAUDE.md-based documentation
 
 ### Migration
