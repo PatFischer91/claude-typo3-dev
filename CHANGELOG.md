@@ -246,7 +246,7 @@ This is the first stable release of the TYPO3 Development Plugin for Claude Code
 2. **Configuration Migration**
    - The plugin now auto-generates `.claude/typo3-project.json`
    - If you had custom settings, move them to `.claude/typo3-config.json`
-   - See [Configuration Guide](./docs/CONFIGURATION.md) for details
+   - See [Configuration Guide](typo3-dev/docs/CONFIGURATION.md) for details
 
 3. **No Breaking Changes**
    - All commands work exactly as before
@@ -258,8 +258,8 @@ This is the first stable release of the TYPO3 Development Plugin for Claude Code
 ## Links
 
 - [GitHub Repository](https://github.com/PatFischer91/claude-typo3-dev)
-- [Installation Guide](./docs/INSTALLATION.md)
-- [Configuration Guide](./docs/CONFIGURATION.md)
+- [Installation Guide](typo3-dev/docs/INSTALLATION.md)
+- [Configuration Guide](typo3-dev/docs/CONFIGURATION.md)
 - [Release Process](./RELEASE.md)
 
 [1.0.0]: https://github.com/PatFischer91/claude-typo3-dev/releases/tag/v1.0.0

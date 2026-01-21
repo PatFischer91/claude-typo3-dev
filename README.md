@@ -1,19 +1,20 @@
-# TYPO3 Development Plugin for Claude Code
+# TYPO3 Development Plugins for Claude Code
 
-A comprehensive plugin for TYPO3 developers that automates workflows with specific tools, validations, and best practices enforcement.
+A comprehensive collection of plugins for TYPO3 developers that automates workflows with specific tools, validations, and the enforcement of best practices.
 
-## Overview
+## Overview available Plugins
 
-This plugin extends Claude Code with TYPO3-specific functionality:
+### Plugin: TYPO3-Dev
+This plugin extends Claude Code with tailored capabilities for TYPO3 development and code generation:
 - **Slash Commands** for extension scaffolding, code generation, and documentation access
 - **Skills** for automatic coding standards compliance and browser testing
 - **Agents** for code validation, migration assistance, and automated testing
 - **Hooks** for automated quality checks
 - **Chrome DevTools** for browser-based testing and debugging
 
-## Features
+#### Features
 
-### Slash Commands
+###### Slash Commands
 
 | Command | Description |
 |---------|-------------|
@@ -38,7 +39,7 @@ This plugin extends Claude Code with TYPO3-specific functionality:
 | `/typo3:cgl` | Get TYPO3 Coding Guidelines reference |
 | `/typo3:test-browser` | Test TYPO3 frontend/backend in Chrome browser |
 
-### Skills (auto-activated)
+###### Skills (auto-activated)
 
 | Skill | Description |
 |-------|-------------|
@@ -53,7 +54,7 @@ This plugin extends Claude Code with TYPO3-specific functionality:
 | `project-aware` | Adapts to detected TYPO3 version (v11/v12/v13) |
 | `browser-testing` | Knowledge for testing TYPO3 in Chrome browser |
 
-### Agents
+###### Agents
 
 | Agent | Description |
 |-------|-------------|
@@ -64,7 +65,7 @@ This plugin extends Claude Code with TYPO3-specific functionality:
 | `typoscript-analyzer` | Analyzes TypoScript for deprecated syntax |
 | `typo3-browser-tester` | Automated browser testing for frontend and backend |
 
-### Hooks
+###### Hooks
 
 | Event | Action |
 |-------|--------|
@@ -76,7 +77,7 @@ This plugin extends Claude Code with TYPO3-specific functionality:
 | `PostToolUse: ext_tables.sql` | Reminds to run `extension:setup` |
 | `UserPromptSubmit` | Context-aware suggestions (controller, model, query, etc.) |
 
-### Chrome DevTools Integration
+###### Chrome DevTools Integration
 
 Browser automation and testing for TYPO3 development:
 - Take viewport/full-page screenshots
@@ -87,11 +88,11 @@ Browser automation and testing for TYPO3 development:
 - Visual regression testing
 - Performance analysis
 
-See [Chrome DevTools Documentation](./docs/CHROME-DEVTOOLS.md)
+See [Chrome DevTools Documentation](typo3-dev/docs/CHROME-DEVTOOLS.md)
 
-## Installation
+#### Installation
 
-### Via Plugin Manager (Recommended)
+###### Via Plugin Manager (Recommended)
 
 ```bash
 # Open Claude Code plugin manager
@@ -102,26 +103,26 @@ See [Chrome DevTools Documentation](./docs/CHROME-DEVTOOLS.md)
 /plugin install typo3-dev@in2code
 ```
 
-### Via CLI
+###### Via CLI
 
 ```bash
 claude plugin marketplace add PatFischer91/claude-typo3-dev
 claude plugin install typo3-dev@in2code
 ```
 
-### Manual Installation
+###### Manual Installation
 
 ```bash
 git clone https://github.com/PatFischer91/claude-typo3-dev.git ~/.claude/plugins/in2code
 ```
 
-### Requirements
+###### Requirements
 
 - **Chrome DevTools**: Requires `npx` (comes with Node.js) for browser testing features
 
-See [Installation Guide](./docs/INSTALLATION.md) for detailed instructions.
+See [Installation Guide](typo3-dev/docs/INSTALLATION.md) for detailed instructions.
 
-## Quick Start
+#### Quick Start
 
 **Auto-Detection:** When you open a TYPO3 project that hasn't been initialized yet (no `CLAUDE.md` in project root), the plugin automatically detects your TYPO3 version and configures itself. No manual setup needed!
 
@@ -130,7 +131,7 @@ For deeper analysis, you can optionally run:
 /typo3:init
 ```
 
-### Common Workflows
+#### Common Workflows
 
 1. **Create new extension**:
    ```
@@ -162,9 +163,9 @@ For deeper analysis, you can optionally run:
    /typo3:upgrade 11.5 12.4
    ```
 
-## Configuration
+#### Configuration
 
-### Built-in Guidelines
+###### Built-in Guidelines
 
 The plugin includes **complete TYPO3 Coding Guidelines** loaded at session start:
 - PSR-12 PHP Coding Standards
@@ -172,7 +173,7 @@ The plugin includes **complete TYPO3 Coding Guidelines** loaded at session start
 - Modern patterns (DI, QueryBuilder, ResponseInterface)
 - Security best practices
 ``
-### Project Configuration
+###### Project Configuration
 
 Run `/typo3:init` to analyze your TYPO3 project and write comprehensive configuration to `CLAUDE.md`:
 - Auto-detects TYPO3 version, extensions, project type (DDEV/Docker/Composer)
@@ -182,16 +183,16 @@ Run `/typo3:init` to analyze your TYPO3 project and write comprehensive configur
 
 The plugin uses standard Claude Code `CLAUDE.md` approach - no separate JSON files needed.
 
-For detailed information, see the [Configuration Guide](./docs/CONFIGURATION.md).``
+For detailed information, see the [Configuration Guide](typo3-dev/docs/CONFIGURATION.md).``
 
-## Documentation
+#### Documentation
 
-- [Installation Guide](./docs/INSTALLATION.md) - How to install the plugin
-- [Configuration Guide](./docs/CONFIGURATION.md) - Project configuration options
-- [Feature Reference](./docs/FEATURES.md) - Complete feature documentation
-- [Chrome DevTools](./docs/CHROME-DEVTOOLS.md) - Browser testing setup
+- [Installation Guide](./typo3-dev/docs/INSTALLATION.md) - How to install the plugin
+- [Configuration Guide](typo3-dev/docs/CONFIGURATION.md) - Project configuration options
+- [Feature Reference](typo3-dev/docs/FEATURES.md) - Complete feature documentation
+- [Chrome DevTools](typo3-dev/docs/CHROME-DEVTOOLS.md) - Browser testing setup
 
-## Directory Structure
+#### Directory Structure
 
 ```
 typo3_development/

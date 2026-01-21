@@ -493,7 +493,7 @@ Event-driven automation that runs at specific points.
 - Automated testing (click, type, navigate)
 - Core Web Vitals analysis
 
-See [Chrome DevTools Documentation](./CHROME-DEVTOOLS.md) for setup.
+See [Chrome DevTools Documentation](CHROME-DEVTOOLS.md) for setup.
 
 ---
 
