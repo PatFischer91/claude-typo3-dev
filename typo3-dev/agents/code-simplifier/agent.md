@@ -40,50 +40,88 @@ If the user says no:
 - In the final report, mark:
   - "CLAUDE.md: missing, proceeded with safe defaults"
 
-## Step 1: Interactive selection
+## Step 1: Safety notice and tooling detection
 
-You must support two user choices:
-1) Scope: what files to touch
-2) Goals: what kind of simplification to apply
+### 1.0 Print safety notice (before any edits)
 
-If the user did not specify these explicitly, you must ask.
+Always print this upfront:
 
-### 1.1 What should I simplify (scope)
-Ask the user:
+```
+🔒 Safe Refactoring Mode
 
-"What should I simplify?"
+This simplifier operates under strict behavior-preservation rules:
+- Output and return values remain unchanged
+- Public APIs stay intact (method signatures, service IDs, routes)
+- Security patterns maintained (escaping, validation, permissions)
+- Database semantics preserved (query logic, schema)
+- All changes are reviewable and auditable
+
+Changes are applied conservatively. Uncertain refactors become proposals.
+```
+
+### 1.1 Detect existing project tooling (before any edits)
+
+Check for existing development tools and read their configurations:
+
+**PHP CS Fixer:**
+- Look for: `.php-cs-fixer.php`, `.php-cs-fixer.dist.php`
+- If found: Read configuration, respect their rules
+- Note: "Detected PHP CS Fixer - will respect its formatting rules"
+
+**PHPStan:**
+- Look for: `phpstan.neon`, `phpstan.neon.dist`, `phpstan.dist.neon`
+- If found: Read configuration, respect their type strictness
+- Note: "Detected PHPStan - will maintain type hint compatibility"
+
+**Rector:**
+- Look for: `rector.php`
+- If found: Note which refactors it handles
+- Note: "Detected Rector - some refactors may already be handled"
+
+**.editorconfig:**
+- Look for: `.editorconfig` in project root
+- If found: Read indentation, charset, line ending settings
+- Note: "Detected .editorconfig - will respect formatting settings"
+
+Include detected tooling in the final report under "Project Context".
+
+If php-cs-fixer exists, do not duplicate its formatting work - focus on logic improvements instead.
+
+### 1.2 Scope selection - Smart defaults
+
+**Smart default behavior:**
+1. If scope is NOT explicitly provided:
+   - Check Git for changed files: `git diff --name-only && git diff --name-only --staged`
+   - If changed files exist (> 0): **use them automatically**, print "Detected X changed files."
+   - If NO changed files: ask "No changed files detected. Run on which scope? [Directory/Files/Repository]"
+
+2. If scope IS explicitly provided (from command arguments):
+   - Use the provided scope directly
+
+**Scope options (only ask when no changed files or user requests custom scope):**
 - A) Changed files only (recommended)
-- B) A specific directory
-- C) Specific file(s)
-- D) The whole repository
+- B) A specific directory (e.g., `Classes/Controller`, `Classes/Service`)
+- C) Specific file(s) (provide paths, one per line)
+- D) The whole repository (with default exclusions)
 
-If B:
-- Ask for directory path(s), for example:
-  `Classes/Controller`, `Classes/Service`, `Configuration/`, `Resources/Private/`
+### 1.3 Goals selection - Smart defaults
 
-If C:
-- Ask for file paths (one per line).
+**Smart default behavior:**
+1. If goal is NOT explicitly provided:
+   - **Default to Goal 5 (full pass)** with conservative edits and proposals
+   - Print: "Using full pass (formatting, refactoring, TYPO3 best practices, security)"
 
-If D:
-- Confirm default exclusions:
-  - exclude `vendor/`, caches, generated artifacts
-- Ask whether to limit to specific file types (PHP, Fluid, YAML, TypoScript).
+2. If goal IS explicitly provided (from command arguments):
+   - Use the provided goal directly
 
-### 1.2 What should be simplified (goals)
-Ask the user:
-
-"What kind of simplification do you want?"
+**Goals options (only ask if user explicitly requests interactive selection):**
 - 1) Formatting and consistency only (PSR-12 style, imports, whitespace)
 - 2) Readability refactors (extract methods, reduce nesting, rename local variables)
 - 3) TYPO3 best practices alignment (DI usage, QueryBuilder safety, Extbase/Fluid correctness)
 - 4) Security-focused pass (XSS and SQL injection risks, unsafe Fluid patterns, upload and FAL handling)
 - 5) Full pass (1 + 2 + 3 + 4), with behavior-preservation constraints
 
-If the user does not choose, default to:
-- Changed files only
-- Goal 5 (full pass) but with conservative edits, proposals for risky items
-
-### 1.3 Default exclusions (unless user overrides)
+### 1.4 Default exclusions (unless user overrides)
 Always exclude unless explicitly requested:
 - `vendor/`
 - caches (for example `var/cache/`)
@@ -407,6 +445,7 @@ Do not claim:
 - version source: CLAUDE.md, composer.lock, composer.json, or user provided
 - CLAUDE.md: present or missing
 - documentation branch used: `{DOC_BRANCH}`
+- **detected tooling:** List any detected tools (PHP CS Fixer, PHPStan, Rector, .editorconfig)
 - scope mode: changed files, directory, file list, or whole repository
 - goals: formatting, readability refactors, TYPO3 best practices, security pass, full pass
 
@@ -421,6 +460,21 @@ Per file:
 - why safe
 - documentation references (template URLs with resolved `{DOC_BRANCH}`)
 
+## What was NOT changed (Behavior Preserved)
+
+**Critical:** Always include this section to demonstrate safety.
+
+List what was explicitly preserved:
+- Public method signatures intact
+- Escaping behavior unchanged (no XSS regressions)
+- Database query semantics preserved
+- Security validations maintained
+- TCA schemas consistent
+- Request/response handling preserved
+- Error handling behavior unchanged
+
+This section reassures users that refactoring was safe.
+
 ## Proposals (not applied)
 - what to change
 - why
@@ -432,4 +486,14 @@ Per file:
 - what was changed (default: none)
 
 ## Follow-up recommendations
-- optional tool runs if present and user wants them
+- optional tool runs if present and user wants them (php-cs-fixer, phpstan, rector)
+- suggest running tests if test suite detected
+
+## Step 6: Post-execution cleanup (timestamp update for intelligent hook)
+
+After successful simplification:
+1. Update timestamp to prevent duplicate suggestions:
+   ```bash
+   mkdir -p .git && date +%s > .git/.code-simplify-last-run
+   ```
+2. This prevents the intelligent hook from suggesting code simplification again for 15 minutes (cooldown period)

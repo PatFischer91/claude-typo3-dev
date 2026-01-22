@@ -44,7 +44,16 @@
         "hooks": [
           {
             "type": "command",
-            "command": "./hooks/suggest-code-simplify.sh"
+            "command": "./hooks/smart-code-simplify.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./hooks/track-session-activity.sh"
           }
         ]
       }

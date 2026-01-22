@@ -38,6 +38,7 @@ This plugin extends Claude Code with tailored capabilities for TYPO3 development
 | `/typo3:api` | Get TYPO3 Core API reference with examples |
 | `/typo3:cgl` | Get TYPO3 Coding Guidelines reference |
 | `/typo3:test-browser` | Test TYPO3 frontend/backend in Chrome browser |
+| `/typo3:code-simplify` | Automatically refactor and clean up TYPO3 code (behavior-preserving) |
 
 ###### Skills (auto-activated)
 
@@ -73,9 +74,21 @@ This plugin extends Claude Code with tailored capabilities for TYPO3 development
 | `PreToolUse: Write/Edit PHP` | Validates TYPO3 best practices before saving |
 | `PreToolUse: Write/Edit HTML` | Checks Fluid templates for anti-patterns |
 | `PreToolUse: Write/Edit TCA` | Validates TCA configuration |
+| `PreToolUse: Bash (git commit)` | **Intelligent code-simplify suggestions** (pre-commit + session-based) |
+| `PreToolUse: Write/Edit (all)` | Tracks session activity for intelligent suggestions |
 | `PostToolUse: Write PHP` | Runs PHP CS Fixer (if available) |
 | `PostToolUse: ext_tables.sql` | Reminds to run `extension:setup` |
-| `UserPromptSubmit` | Context-aware suggestions (controller, model, query, etc.) |
+
+**Intelligent Hook Details:**
+
+The code-simplify hook is **smart and non-intrusive** - it suggests running the simplifier at the right times:
+- **Pre-commit:** Always shows gentle suggestion when committing changes
+- **Session-based:** After 30+ minutes of active coding with significant changes
+- **Smart cooldown:** Won't suggest again for 15 minutes after successful run
+- **Context-aware:** Adapts suggestion strength based on changes and session duration
+- **Never blocking:** All suggestions are optional, workflow continues normally
+
+Philosophy: **Helpful, not annoying** - respects your workflow while encouraging code quality.
 
 ###### Chrome DevTools Integration
 
@@ -130,6 +143,46 @@ For deeper analysis, you can optionally run:
 ```
 /typo3:init
 ```
+
+#### Code Simplifier
+
+Automatically refactor and clean up TYPO3 code following best practices:
+
+**Quick Start:**
+```bash
+/typo3:code-simplify
+```
+
+**Features:**
+- ✅ **Behavior-preserving** refactoring (outputs, APIs, security unchanged)
+- ✅ PSR-12 formatting and code style
+- ✅ TYPO3 best practices (DI, QueryBuilder, Extbase patterns)
+- ✅ Security review (XSS, SQL injection prevention)
+- ✅ Version-aware (TYPO3 11/12/13)
+- ✅ Respects existing project tooling (PHP CS Fixer, PHPStan, Rector)
+- ✅ Intelligent hook system (suggests before commits, non-intrusive)
+- ✅ Smart defaults (auto-detects changed files)
+
+**What It Does:**
+- Formatting & consistency (PSR-12, imports, whitespace)
+- Readability improvements (extract methods, reduce nesting)
+- TYPO3 patterns (DI, QueryBuilder, slim controllers)
+- Security hardening (escaping, SQL injection prevention)
+- Generates detailed reports with "What was NOT changed" section
+
+**What It Does NOT Do:**
+- ❌ Does NOT change functionality or behavior
+- ❌ Does NOT modify public APIs
+- ❌ Does NOT weaken security
+- ❌ Uncertain changes become proposals (you decide)
+
+**Intelligent Hook:**
+- Pre-commit suggestions (gentle reminders)
+- Session-based triggers (after 30+ min of coding)
+- Smart cooldown (15-min after run)
+- Never annoying, always helpful
+
+See: [Code Simplifier Guide](typo3-dev/docs/CODE-SIMPLIFIER.md)
 
 #### Common Workflows
 

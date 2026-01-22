@@ -13,6 +13,21 @@ Purpose:
 - Manually run the TYPO3 Code Simplifier Agent with a user-chosen scope and simplification goals.
 - Preserve behavior and produce a detailed report.
 
+## Quick Start
+
+**Default usage (recommended):**
+```
+/typo3:code-simplify
+```
+→ Automatically detects changed files and runs a full pass (formatting, refactoring, TYPO3 best practices, security).
+
+**Custom usage:**
+```
+/typo3:code-simplify goal:format              # Format changed files only
+/typo3:code-simplify dir:Classes/Service      # Simplify specific directory
+/typo3:code-simplify repo goal:typo3          # Full repository, TYPO3 patterns only
+```
+
 ## Step 0: CLAUDE.md bootstrap (mandatory)
 
 1) Check if `CLAUDE.md` exists in the repository root.
@@ -28,50 +43,54 @@ Purpose:
     - If no:
         - Continue with safe defaults and explicitly report that CLAUDE.md was missing.
 
-## Step 1: Scope selection (interactive)
+## Step 1: Smart defaults for scope and goals
 
-If the user provided scope arguments in $ARGUMENTS, use them.
-If $ARGUMENTS is empty or unclear, ask the user:
+### 1.1 Parse arguments
+If the user provided scope or goal arguments in $ARGUMENTS, use them directly.
 
+### 1.2 Auto-detect scope (smart default)
+If no scope argument provided:
+1. Check for Git changed files:
+   - Run: `git diff --name-only && git diff --name-only --staged`
+   - Count changed files
+
+2. If changed files exist (> 0):
+   - **Use them automatically** (no question needed)
+   - Print: "Detected X changed files. Running simplifier on changed files only."
+
+3. If NO changed files exist:
+   - Ask: "No changed files detected. Run on which scope? [Directory/Specific Files/Whole Repository]"
+   - If Directory: Ask for paths (e.g., `Classes/Service`)
+   - If Specific Files: Ask for file paths (one per line)
+   - If Whole Repository: Confirm exclusions (vendor/, caches)
+
+### 1.3 Auto-select goals (smart default)
+If no goal argument provided:
+- **Default to "full pass"** (comprehensive: formatting + refactoring + TYPO3 + security)
+- Print: "Using full pass (formatting, refactoring, TYPO3 best practices, security)."
+- Add: "Tip: Use 'goal:format' for formatting only, or 'goal:typo3' for TYPO3-specific patterns."
+
+### 1.4 Expert mode (optional customization)
+Users can override defaults with arguments:
+- Scope: `changed`, `dir:<path>`, `file:<path>`, `repo`
+- Goals: `goal:format`, `goal:refactor`, `goal:typo3`, `goal:security`, `goal:full`
+
+If the user explicitly asks to choose interactively, provide the full menu:
+
+**Scope menu (only when explicitly requested):**
 "What should I simplify?"
 - A) Changed files only (recommended)
 - B) A specific directory
 - C) Specific file(s)
 - D) The whole repository
 
-If A:
-- Use Git changed files:
-    - `git status --porcelain`
-    - `git diff --name-only`
-    - `git diff --name-only --staged`
-
-If B:
-- Ask for one or more directory paths (repeatable), for example:
-  `Classes/Service`, `Classes/Controller`, `Configuration/`, `Resources/Private/`
-
-If C:
-- Ask for file paths (one per line).
-- Validate each path exists (best-effort with Read/Grep/Glob).
-
-If D:
-- Confirm default exclusions:
-    - exclude `vendor/`, caches, generated artifacts by default
-- Ask whether to limit to certain file types.
-
-## Step 2: Goals selection (interactive)
-
-If the user provided goal arguments in $ARGUMENTS, use them.
-If goal is not specified, ask:
-
+**Goals menu (only when explicitly requested):**
 "What kind of simplification do you want?"
 - 1) Formatting and consistency only
 - 2) Readability refactors
 - 3) TYPO3 best practices alignment
 - 4) Security-focused pass
 - 5) Full pass (1 + 2 + 3 + 4), conservative edits plus proposals
-
-Default if user does not choose:
-- Goal 5 (full pass), conservative edits, proposals for risky items
 
 ## Step 3: Execution
 

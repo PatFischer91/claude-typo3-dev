@@ -31,3 +31,6 @@ htmlcov/
 # Local configuration
 .env
 local_config.json
+
+# Project-specific instructions (user-generated)
+CLAUDE.md
