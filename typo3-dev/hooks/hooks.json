@@ -38,6 +38,15 @@
             "prompt": "Before writing/editing TCA configuration:\n\n1. Start with defined('TYPO3') || die();\n2. Return array (not $GLOBALS['TCA'][...] = [...])\n3. Include proper ctrl section with label, tstamp, crdate, delete\n4. Add language support fields (sys_language_uid, l10n_parent)\n5. Include enablecolumns (hidden, starttime, endtime)\n6. Define types and palettes for proper BE forms\n7. Use proper column types from TYPO3 v12+ (input, text, number, datetime, select, etc.)"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./hooks/suggest-code-simplify.sh"
+          }
+        ]
       }
     ],
 
