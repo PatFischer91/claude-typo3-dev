@@ -2,12 +2,12 @@
   "hooks": {
     "SessionStart": [
       {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "echo 'Apply the following TYPO3 Coding Guidelines throughout this session:' && cat ./hooks/development_standards.md && echo '\n\nThese guidelines are based on TYPO3 CGL and PSR-12. Apply them automatically when writing or reviewing code.'"
-          }
-        ]
+        "type": "command",
+        "command": "${CLAUDE_PLUGIN_ROOT}/hooks/load-development-standards.sh"
+      },
+      {
+        "type": "command",
+        "command": "${CLAUDE_PLUGIN_ROOT}/hooks/track-session-activity.sh"
       }
     ],
 
@@ -44,16 +44,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "./hooks/smart-code-simplify.sh"
-          }
-        ]
-      },
-      {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "./hooks/track-session-activity.sh"
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/smart-code-simplify.sh"
           }
         ]
       }
