@@ -1,42 +1,28 @@
 # Installation Guide
 
-## Quick Installation
+## Quick Installation (2 Steps)
 
-### Option 1: Via Plugin Manager (Recommended)
+### Step 1: Add the Marketplace
 
 ```bash
-# In Claude Code, open plugin manager
-/plugin
-
-# Then select "Discover" and search for "typo3"
-# Or add the marketplace directly:
+# In Claude Code
 /plugin marketplace add PatFischer91/claude-typo3-dev
-```
 
-### Option 2: Direct Installation
-
-```bash
-# Install directly from GitHub
-/plugin install typo3-dev@in2code
-```
-
-### Option 3: CLI Installation
-
-```bash
-# From your terminal
+# Or via CLI
 claude plugin marketplace add PatFischer91/claude-typo3-dev
+```
+
+### Step 2: Install the Plugin
+
+```bash
+# In Claude Code
+/plugin install typo3-dev@in2code
+
+# Or via CLI
 claude plugin install typo3-dev@in2code
 ```
 
-### Option 4: Manual Installation
-
-```bash
-# Clone to your plugins directory
-git clone https://github.com/PatFischer91/claude-typo3-dev.git ~/.claude/plugins/in2code
-
-# Or for project-specific installation
-git clone https://github.com/PatFischer91/claude-typo3-dev.git .claude/plugins/in2code
-```
+The plugin will be installed globally and available in all your Claude Code projects.
 
 ## Requirements
 
@@ -88,11 +74,11 @@ After installation, verify the plugin is active:
 ## Uninstallation
 
 ```bash
-# Via plugin manager
-/plugin uninstall typo3-dev
+# Via CLI
+claude plugin uninstall typo3-dev
 
-# Or via CLI
-claude plugin uninstall typo3-dev@in2code
+# Or via plugin manager in Claude Code
+/plugin uninstall typo3-dev
 ```
 
 ## Updating
@@ -108,10 +94,29 @@ claude plugin uninstall typo3-dev@in2code
 
 ## Troubleshooting
 
-### Plugin not found
+### "Plugin not found" error
 
-Make sure the marketplace is added:
+**Problem:** You forgot to add the marketplace first.
+
+**Solution:**
 ```bash
+# Step 1: Add marketplace
+claude plugin marketplace add PatFischer91/claude-typo3-dev
+
+# Step 2: Install plugin
+claude plugin install typo3-dev@in2code
+```
+
+### "Marketplace not found" error
+
+**Problem:** The marketplace URL is incorrect or not accessible.
+
+**Solution:** Verify the marketplace was added correctly:
+```bash
+# List configured marketplaces
+/plugin marketplace list
+
+# Re-add if needed
 /plugin marketplace add PatFischer91/claude-typo3-dev
 ```
 

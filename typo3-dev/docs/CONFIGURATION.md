@@ -295,6 +295,6 @@ See full example in "CLAUDE.md Structure" section above.
 
 ## Related Documentation
 
-- [Installation Guide](./INSTALLATION.md) - How to install the plugin
-- [Feature Reference](./FEATURES.md) - Available commands and skills
-- [TYPO3 Init Command](../typo3-dev/commands/init.md) - Detailed init documentation
+- [Installation Guide](INSTALLATION.md) - How to install the plugin
+- [Feature Reference](FEATURES.md) - Available commands and skills
+- [TYPO3 Init Command](../commands/init.md) - Detailed init documentation

@@ -1,19 +1,20 @@
-# TYPO3 Development Plugin for Claude Code
+# TYPO3 Development Plugins for Claude Code
 
-A comprehensive plugin for TYPO3 developers that automates workflows with specific tools, validations, and best practices enforcement.
+A comprehensive collection of plugins for TYPO3 developers that automates workflows with specific tools, validations, and the enforcement of best practices.
 
-## Overview
+## Overview available Plugins
 
-This plugin extends Claude Code with TYPO3-specific functionality:
+### Plugin: TYPO3-Dev
+This plugin extends Claude Code with tailored capabilities for TYPO3 development and code generation:
 - **Slash Commands** for extension scaffolding, code generation, and documentation access
 - **Skills** for automatic coding standards compliance and browser testing
 - **Agents** for code validation, migration assistance, and automated testing
 - **Hooks** for automated quality checks
 - **Chrome DevTools** for browser-based testing and debugging
 
-## Features
+#### Features
 
-### Slash Commands
+###### Slash Commands
 
 | Command | Description |
 |---------|-------------|
@@ -37,8 +38,10 @@ This plugin extends Claude Code with TYPO3-specific functionality:
 | `/typo3:api` | Get TYPO3 Core API reference with examples |
 | `/typo3:cgl` | Get TYPO3 Coding Guidelines reference |
 | `/typo3:test-browser` | Test TYPO3 frontend/backend in Chrome browser |
+| `/typo3:code-simplify` | Automatically refactor and clean up TYPO3 code (behavior-preserving) |
+| `/typo3:bugfix` | Systematically debug and fix bugs with intelligent automation |
 
-### Skills (auto-activated)
+###### Skills (auto-activated)
 
 | Skill | Description |
 |-------|-------------|
@@ -53,7 +56,7 @@ This plugin extends Claude Code with TYPO3-specific functionality:
 | `project-aware` | Adapts to detected TYPO3 version (v11/v12/v13) |
 | `browser-testing` | Knowledge for testing TYPO3 in Chrome browser |
 
-### Agents
+###### Agents
 
 | Agent | Description |
 |-------|-------------|
@@ -63,8 +66,9 @@ This plugin extends Claude Code with TYPO3-specific functionality:
 | `tca-validator` | Validates TCA configurations and column types |
 | `typoscript-analyzer` | Analyzes TypoScript for deprecated syntax |
 | `typo3-browser-tester` | Automated browser testing for frontend and backend |
+| `typo3-bugfix` | Systematic bug fixing with reproduction, analysis, fix, and verification |
 
-### Hooks
+###### Hooks
 
 | Event | Action |
 |-------|--------|
@@ -72,11 +76,23 @@ This plugin extends Claude Code with TYPO3-specific functionality:
 | `PreToolUse: Write/Edit PHP` | Validates TYPO3 best practices before saving |
 | `PreToolUse: Write/Edit HTML` | Checks Fluid templates for anti-patterns |
 | `PreToolUse: Write/Edit TCA` | Validates TCA configuration |
+| `PreToolUse: Bash (git commit)` | **Intelligent code-simplify suggestions** (pre-commit + session-based) |
+| `PreToolUse: Write/Edit (all)` | Tracks session activity for intelligent suggestions |
 | `PostToolUse: Write PHP` | Runs PHP CS Fixer (if available) |
 | `PostToolUse: ext_tables.sql` | Reminds to run `extension:setup` |
-| `UserPromptSubmit` | Context-aware suggestions (controller, model, query, etc.) |
 
-### Chrome DevTools Integration
+**Intelligent Hook Details:**
+
+The code-simplify hook is **smart and non-intrusive** - it suggests running the simplifier at the right times:
+- **Pre-commit:** Always shows gentle suggestion when committing changes
+- **Session-based:** After 30+ minutes of active coding with significant changes
+- **Smart cooldown:** Won't suggest again for 15 minutes after successful run
+- **Context-aware:** Adapts suggestion strength based on changes and session duration
+- **Never blocking:** All suggestions are optional, workflow continues normally
+
+Philosophy: **Helpful, not annoying** - respects your workflow while encouraging code quality.
+
+###### Chrome DevTools Integration
 
 Browser automation and testing for TYPO3 development:
 - Take viewport/full-page screenshots
@@ -87,41 +103,35 @@ Browser automation and testing for TYPO3 development:
 - Visual regression testing
 - Performance analysis
 
-See [Chrome DevTools Documentation](./docs/CHROME-DEVTOOLS.md)
+See [Chrome DevTools Documentation](typo3-dev/docs/CHROME-DEVTOOLS.md)
 
-## Installation
+#### Installation
 
-### Via Plugin Manager (Recommended)
+**Quick Install (2 Steps):**
 
 ```bash
-# Open Claude Code plugin manager
-/plugin
+# 1. Add the marketplace
+claude plugin marketplace add PatFischer91/claude-typo3-dev
 
-# Add marketplace and install
+# 2. Install the plugin
+claude plugin install typo3-dev@in2code
+```
+
+Or via Claude Code UI:
+```bash
 /plugin marketplace add PatFischer91/claude-typo3-dev
 /plugin install typo3-dev@in2code
 ```
 
-### Via CLI
+The plugin will be available in all your Claude Code projects.
 
-```bash
-claude plugin marketplace add PatFischer91/claude-typo3-dev
-claude plugin install typo3-dev@in2code
-```
+**Requirements:**
+- Claude Code CLI installed
+- **Optional:** Chrome DevTools integration requires `npx` (comes with Node.js)
 
-### Manual Installation
+See [Installation Guide](typo3-dev/docs/INSTALLATION.md) for detailed instructions and troubleshooting.
 
-```bash
-git clone https://github.com/PatFischer91/claude-typo3-dev.git ~/.claude/plugins/in2code
-```
-
-### Requirements
-
-- **Chrome DevTools**: Requires `npx` (comes with Node.js) for browser testing features
-
-See [Installation Guide](./docs/INSTALLATION.md) for detailed instructions.
-
-## Quick Start
+#### Quick Start
 
 **Auto-Detection:** When you open a TYPO3 project that hasn't been initialized yet (no `CLAUDE.md` in project root), the plugin automatically detects your TYPO3 version and configures itself. No manual setup needed!
 
@@ -130,7 +140,47 @@ For deeper analysis, you can optionally run:
 /typo3:init
 ```
 
-### Common Workflows
+#### Code Simplifier
+
+Automatically refactor and clean up TYPO3 code following best practices:
+
+**Quick Start:**
+```bash
+/typo3:code-simplify
+```
+
+**Features:**
+- ✅ **Behavior-preserving** refactoring (outputs, APIs, security unchanged)
+- ✅ PSR-12 formatting and code style
+- ✅ TYPO3 best practices (DI, QueryBuilder, Extbase patterns)
+- ✅ Security review (XSS, SQL injection prevention)
+- ✅ Version-aware (TYPO3 11/12/13)
+- ✅ Respects existing project tooling (PHP CS Fixer, PHPStan, Rector)
+- ✅ Intelligent hook system (suggests before commits, non-intrusive)
+- ✅ Smart defaults (auto-detects changed files)
+
+**What It Does:**
+- Formatting & consistency (PSR-12, imports, whitespace)
+- Readability improvements (extract methods, reduce nesting)
+- TYPO3 patterns (DI, QueryBuilder, slim controllers)
+- Security hardening (escaping, SQL injection prevention)
+- Generates detailed reports with "What was NOT changed" section
+
+**What It Does NOT Do:**
+- ❌ Does NOT change functionality or behavior
+- ❌ Does NOT modify public APIs
+- ❌ Does NOT weaken security
+- ❌ Uncertain changes become proposals (you decide)
+
+**Intelligent Hook:**
+- Pre-commit suggestions (gentle reminders)
+- Session-based triggers (after 30+ min of coding)
+- Smart cooldown (15-min after run)
+- Never annoying, always helpful
+
+See: [Code Simplifier Guide](typo3-dev/docs/CODE-SIMPLIFIER.md)
+
+#### Common Workflows
 
 1. **Create new extension**:
    ```
@@ -162,9 +212,14 @@ For deeper analysis, you can optionally run:
    /typo3:upgrade 11.5 12.4
    ```
 
-## Configuration
+7. **Fix bug systematically**:
+   ```
+   /typo3:bugfix ticket:T-1234
+   ```
 
-### Built-in Guidelines
+#### Configuration
+
+###### Built-in Guidelines
 
 The plugin includes **complete TYPO3 Coding Guidelines** loaded at session start:
 - PSR-12 PHP Coding Standards
@@ -172,7 +227,7 @@ The plugin includes **complete TYPO3 Coding Guidelines** loaded at session start
 - Modern patterns (DI, QueryBuilder, ResponseInterface)
 - Security best practices
 ``
-### Project Configuration
+###### Project Configuration
 
 Run `/typo3:init` to analyze your TYPO3 project and write comprehensive configuration to `CLAUDE.md`:
 - Auto-detects TYPO3 version, extensions, project type (DDEV/Docker/Composer)
@@ -182,16 +237,17 @@ Run `/typo3:init` to analyze your TYPO3 project and write comprehensive configur
 
 The plugin uses standard Claude Code `CLAUDE.md` approach - no separate JSON files needed.
 
-For detailed information, see the [Configuration Guide](./docs/CONFIGURATION.md).``
+For detailed information, see the [Configuration Guide](typo3-dev/docs/CONFIGURATION.md).``
 
-## Documentation
+#### Documentation
 
-- [Installation Guide](./docs/INSTALLATION.md) - How to install the plugin
-- [Configuration Guide](./docs/CONFIGURATION.md) - Project configuration options
-- [Feature Reference](./docs/FEATURES.md) - Complete feature documentation
-- [Chrome DevTools](./docs/CHROME-DEVTOOLS.md) - Browser testing setup
+- [Installation Guide](./typo3-dev/docs/INSTALLATION.md) - How to install the plugin
+- [Configuration Guide](typo3-dev/docs/CONFIGURATION.md) - Project configuration options
+- [Feature Reference](typo3-dev/docs/FEATURES.md) - Complete feature documentation
+- [Chrome DevTools](typo3-dev/docs/CHROME-DEVTOOLS.md) - Browser testing setup
+- [Bugfix Workflow](typo3-dev/docs/BUGFIX-WORKFLOW.md) - Systematic bug fixing guide
 
-## Directory Structure
+#### Directory Structure
 
 ```
 typo3_development/
@@ -236,4 +292,4 @@ MIT License
 
 ---
 
-**Version**: 1.1.0 | **Status**: Stable
+**Version**: 1.2.0 | **Status**: Stable

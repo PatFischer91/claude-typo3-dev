@@ -4,8 +4,12 @@
       {
         "hooks": [
           {
-            "type": "prompt",
-            "prompt": "Apply the following TYPO3 Coding Guidelines throughout this session:\n\n## PHP/TYPO3 Development Standards\n\n### Code Style\n- Adhere to PSR-12 for all PHP files\n- Use the existing .editorconfig for indentation and formatting\n- Follow the style of existing project files\n- Use only single quotes (`'`) for PHP strings\n- Prioritize type safety\n- Prefer `$variable === false` instead of `!$variable`\n- Avoid early returns in PHP functions\n- Don't use generic exceptions (e.g., RuntimeException); implement custom exceptions\n- Catch global exceptions using `\\Throwable` rather than `\\Exception`\n- Use constants for central values (limits, database constants, etc.)\n- Use enums where appropriate\n- Minimize fully qualified names (FQN) where possible\n- Always use `declare(strict_types=1);` after `<?php`\n- Config files: `defined('TYPO3') || die();` (NOT `or die()`!)\n\n### Code Quality & Clean Code\nAvoid these code smells:\n- Long Methods (> 20-30 lines) - break into smaller units\n- Large Classes (> 300 lines) - split responsibilities\n- Duplicate Code - extract into methods/services\n- Too Many Parameters (> 3-4) - refactor or use objects\n- Deep Nesting (> 3 levels) - simplify control flow\n- Magic Numbers and Strings - use named constants\n\nAdditional practices:\n- Use descriptive variable and method names\n- Apply Single Responsibility Principle\n- Follow DRY principle by extracting repeated code\n- Reduce complexity with early returns instead of nested conditionals\n- Prefer readable names over inline comments\n\n### Namespacing\n- Format: `Vendor\\ExtensionKey\\ComponentType\\`\n- Vendor name in StudlyCase\n- Extension key in StudlyCase (even with underscores)\n\n### Dependency Injection\n- ALWAYS use constructor injection with `private readonly`\n- NEVER use ObjectManager (removed in v12)\n- NEVER use GeneralUtility::makeInstance() for services\n- Services auto-wired via Services.yaml\n\n### Database Queries\n- ALWAYS use Doctrine DBAL QueryBuilder\n- ALWAYS use createNamedParameter() with PDO types\n- NEVER use $GLOBALS['TYPO3_DB'] (removed in v10)\n- NEVER concatenate user input into SQL\n\n### Controllers\n- Keep controllers SLIM - move business logic to services\n- All actions MUST return ResponseInterface\n- NEVER use $GLOBALS['TSFE'] - use request attributes\n- NEVER access $_GET, $_POST, $_SESSION directly\n- Use $this->request instead\n\n### Fluid Templates\n- NO business logic in templates - only presentation\n- Use ViewHelpers for complex presentation logic\n- NEVER use f:format.raw() on user input (XSS!)\n- Prepare data in Controller/Service, not template\n\n### HTTP Requests\n- Use RequestFactory instead of GeneralUtility::getUrl()\n- Use RequestFactory instead of raw cURL\n\n### Events\n- Use PSR-14 Events instead of old hook system\n- Register listeners in Services.yaml\n\n### TCA Configuration\n- Start with `defined('TYPO3') || die();`\n- Return array (not $GLOBALS['TCA'][...] = [...])\n- Include ctrl section with label, tstamp, crdate, delete\n- Add language support fields (sys_language_uid, l10n_parent)\n- Include enablecolumns (hidden, starttime, endtime)\n- Don't define table fields in ext_tables.sql if already in TCA (unless SQL indexes needed)\n\n### Security\n- Validate all user input\n- QueryBuilder with named parameters (never concatenate SQL)\n- Fluid escapes by default - be careful with f:format.raw()\n- Validate file uploads (type, size, content)\n- Never log passwords or tokens\n\n### Directory Structure\n- PHP logic belongs in Classes/Domain/ (or subdirectories)\n- Business logic in Services, not Controllers\n- Data access only in Repositories\n\n### Anti-Patterns to Avoid\n- Business logic in Fluid templates\n- Direct $_GET, $_POST, $_SESSION access\n- Static utility calls where DI is possible\n- SQL queries outside repositories\n- Error suppression using @\n\n### Best Practices\n- Write meaningful commit messages following Conventional Commits convention\n- Document complex logic inline\n- Never hardcode strings; use XLIFF localization\n- Create unit tests for new business logic\n\n### Workflow\n- Review existing code patterns before implementation\n- Ask about architectural decisions before coding\n- Prioritize refactoring over new features\n- Report identified code smells during work\n\nThese guidelines are based on TYPO3 CGL and PSR-12. Apply them automatically when writing or reviewing code."
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/load-development-standards.sh"
+          },
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/track-session-activity.sh"
           }
         ]
       }
@@ -36,6 +40,15 @@
           {
             "type": "prompt",
             "prompt": "Before writing/editing TCA configuration:\n\n1. Start with defined('TYPO3') || die();\n2. Return array (not $GLOBALS['TCA'][...] = [...])\n3. Include proper ctrl section with label, tstamp, crdate, delete\n4. Add language support fields (sys_language_uid, l10n_parent)\n5. Include enablecolumns (hidden, starttime, endtime)\n6. Define types and palettes for proper BE forms\n7. Use proper column types from TYPO3 v12+ (input, text, number, datetime, select, etc.)"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/smart-code-simplify.sh"
           }
         ]
       }
