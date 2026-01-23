@@ -6,12 +6,11 @@ Welcome! This guide helps you get the most out of the TYPO3-Dev plugin with prac
 
 ### 1. Installation
 ```bash
-# Clone the repository
-git clone https://github.com/PatFischer91/claude-typo3-dev.git
-cd claude-typo3-dev
+# Add the marketplace
+claude plugin marketplace add PatFischer91/claude-typo3-dev
 
 # Install the plugin
-claude plugin install ./typo3-dev
+claude plugin install typo3-dev@in2code
 ```
 
 ### 2. Start a New Chat in Your TYPO3 Project

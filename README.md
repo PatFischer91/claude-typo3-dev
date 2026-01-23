@@ -110,19 +110,23 @@ See [Chrome DevTools Documentation](typo3-dev/docs/CHROME-DEVTOOLS.md)
 **Quick Install (2 Steps):**
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/PatFischer91/claude-typo3-dev.git
-cd claude-typo3-dev
+# 1. Add the marketplace
+claude plugin marketplace add PatFischer91/claude-typo3-dev
 
 # 2. Install the plugin
-claude plugin install ./typo3-dev
+claude plugin install typo3-dev@in2code
+```
+
+Or via Claude Code UI:
+```bash
+/plugin marketplace add PatFischer91/claude-typo3-dev
+/plugin install typo3-dev@in2code
 ```
 
 The plugin will be available in all your Claude Code projects.
 
 **Requirements:**
 - Claude Code CLI installed
-- Git (for cloning)
 - **Optional:** Chrome DevTools integration requires `npx` (comes with Node.js)
 
 See [Installation Guide](typo3-dev/docs/INSTALLATION.md) for detailed instructions and troubleshooting.
