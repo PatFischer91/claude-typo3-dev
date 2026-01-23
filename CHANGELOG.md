@@ -7,6 +7,71 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 1.2.0 - 2026-01-23
+
+### Added
+
+- **Intelligent TYPO3 Bugfix Workflow** (`/typo3:bugfix`)
+  - Systematic debugging with reproduction, analysis, fix, and verification
+  - Multiple modes: auto, assisted, collaborative
+  - Comprehensive bug documentation and tracking
+
+- **Enhanced Code Simplifier** (`/typo3:code-simplify`)
+  - Smart defaults and intelligent suggestions
+  - Session-based tracking for optimal timing
+  - Pre-commit hooks with 15-minute cooldown
+  - Context-aware suggestion strength
+
+- **Version-Aware TYPO3 Documentation**
+  - Support for DOC_BRANCH environment variable
+  - Version-specific documentation searches (12.4, 13.0, etc.)
+
+- **Comprehensive User Documentation**
+  - Getting Started Guide with 8 practical use cases
+  - Quick Reference Card for fast command lookup
+  - Real-world workflows and best practices
+  - Troubleshooting sections
+
+### Changed
+
+- **Plugin Hook System Improvements**
+  - Use `${CLAUDE_PLUGIN_ROOT}` for portable plugin paths
+  - Works automatically for all users without configuration
+  - Proper separation of plugin files and user data
+
+- **Coding Guidelines Internationalization**
+  - Translated all guidelines from German to English
+  - Externalized to `development_standards.md` for easier maintenance
+  - Loaded automatically via SessionStart hook
+
+- **Installation Process**
+  - Simplified to 2-step process (add marketplace, install plugin)
+  - Clear instructions to avoid common errors
+  - Removed confusing installation methods
+
+### Fixed
+
+- **SessionStart Hook Structure**
+  - Corrected JSON schema validation errors
+  - Proper `hooks` array wrapper required
+
+- **Documentation Accuracy**
+  - Removed non-existent `/typo3:help` command references
+  - Corrected command discovery instructions (type `/typo3:` without Tab)
+  - Fixed all references to use existing commands only
+
+- **Installation Errors**
+  - Added missing marketplace setup step
+  - Prevented "Plugin not found" and "Marketplace not found" errors
+
+### Technical
+
+- Session tracking files stored in `.git/.code-simplify-*`
+- Hooks execute in user's project directory with plugin root reference
+- All scripts use `${CLAUDE_PLUGIN_ROOT}` for portability
+
+---
+
 ## 1.1.0 - 2026-01-17
 
 ### Added
