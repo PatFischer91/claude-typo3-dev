@@ -392,8 +392,8 @@ goal:full
 
 ## 💡 Tips & Tricks
 
-### Tip 1: Use Tab Completion
-Type `/typo3:` and press Tab to see all available commands.
+### Tip 1: Browse Commands
+Type `/typo3:` to see all available commands (don't press Tab - just wait for the list).
 
 ### Tip 2: Check Session Tracking
 ```bash
@@ -475,7 +475,7 @@ The plugin chooses agents automatically when appropriate. You typically just use
 ## 📚 Next Steps
 
 1. **Try the Workflows Above** - Pick one that matches your task
-2. **Explore Commands** - Type `/typo3:` + Tab or see `docs/QUICK-REFERENCE.md`
+2. **Explore Commands** - Type `/typo3:` to see list or check `docs/QUICK-REFERENCE.md`
 3. **Read Feature Docs** - See `docs/FEATURES.md` for details
 4. **Check Examples** - Real-world patterns in each command
 

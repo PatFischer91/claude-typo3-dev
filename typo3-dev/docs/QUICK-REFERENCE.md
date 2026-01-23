@@ -199,11 +199,11 @@ my_ext/
 
 ## 💡 Pro Tips
 
-1. **Tab Completion:** Type `/typo3:` + Tab
+1. **Browse Commands:** Type `/typo3:` to see command list
 2. **Version-Specific:** Always specify version in docs search
 3. **Combine Init + Docs:** `/typo3:init` then search suggested topics
 4. **Scope Changed:** Use `scope:changed` for daily work
-5. **Tab Completion:** Type `/typo3:` + Tab to see all commands
+5. **Browse Commands:** Type `/typo3:` to see command list (no Tab needed)
 
 ---
 
@@ -214,7 +214,7 @@ my_ext/
 | SessionStart error | Check plugin installed correctly |
 | No tracking files | Ensure you're in a git repo |
 | Too many suggestions | Built-in 15min cooldown |
-| Command not found | Type `/typo3:` + Tab to see available commands |
+| Command not found | Type `/typo3:` to see available commands |
 | Guidelines not loading | Restart Claude session |
 
 ---
@@ -223,7 +223,7 @@ my_ext/
 
 ```bash
 # Available commands
-Type /typo3: and press Tab to see all commands
+Type /typo3: to see all commands (command list appears automatically)
 
 # Documentation
 docs/GETTING-STARTED.md        # Detailed guide
