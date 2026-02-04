@@ -72,7 +72,7 @@ This plugin extends Claude Code with tailored capabilities for TYPO3 development
 
 | Event | Action |
 |-------|--------|
-| `SessionStart` | Loads TYPO3 CGL + detects project config (.claude/typo3-project.json) |
+| `SessionStart` | Loads TYPO3 Coding Guidelines at session start |
 | `PreToolUse: Write/Edit PHP` | Validates TYPO3 best practices before saving |
 | `PreToolUse: Write/Edit HTML` | Checks Fluid templates for anti-patterns |
 | `PreToolUse: Write/Edit TCA` | Validates TCA configuration |
