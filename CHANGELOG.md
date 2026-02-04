@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 1.2.1 - 2026-02-04
+
+### Fixed
+
+- **Documentation Updates**
+  - Removed all outdated references to `.claude/typo3-project.json`
+  - All documentation now correctly references `CLAUDE.md` (standard Claude Code approach)
+  - Updated README.md, FEATURES.md, and project-aware skill documentation
+  - Clarified SessionStart hook behavior (loads TYPO3 Coding Guidelines only)
+
+---
+
 ## 1.2.0 - 2026-01-23
 
 ### Added
