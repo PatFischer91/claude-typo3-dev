@@ -20,7 +20,7 @@ All commands are prefixed with `/typo3:`. Arguments in `[]` are optional.
 
 **Note:** Basic auto-detection happens automatically for new projects. Use this command for detailed analysis including site configs, all extensions, and dev tools.
 
-**Creates:** `.claude/typo3-project.json` with:
+**Creates:** `CLAUDE.md` with:
 - TYPO3 version (11/12/13)
 - PHP version
 - Project type (DDEV, Composer, Legacy)
@@ -432,7 +432,7 @@ Event-driven automation that runs at specific points.
 **Actions:**
 1. Checks for `CLAUDE.md` in project root
 2. If new project + TYPO3 detected → Auto-initializes
-3. Loads `.claude/typo3-project.json` configuration
+3. Loads `CLAUDE.md` configuration
 4. Applies TYPO3 Coding Guidelines
 
 ### PreToolUse
@@ -518,7 +518,7 @@ Session Start
                     │         │           - PHP version
                     │         │           - Project type
                     │         │           - Extensions
-                    │         │           ──► Create typo3-project.json
+                    │         │           ──► Create CLAUDE.md
                     │         │
                     │         └── NO ──► Not a TYPO3 project
                     │

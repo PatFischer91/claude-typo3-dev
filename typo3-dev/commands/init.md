@@ -36,6 +36,10 @@ Run `/typo3:init` when you want:
 9. **Writes comprehensive project info to `CLAUDE.md`**
 10. **Includes TYPO3-specific guidelines** for the detected version
 
+## IMPORTANT: Execution Rules
+
+**Perform ALL analysis steps YOURSELF.** Do NOT use the Agent tool. Do NOT delegate to any subagent (e.g., typo3-migration-assistant, typo3-validator, or any other). Use only Read, Glob, Grep, Bash, Write, and Edit tools directly. This command is about understanding the current project state — not about migrations, upgrades, or validation.
+
 ## Steps
 
 ### Step 1: Detect TYPO3 Version
@@ -555,22 +559,24 @@ The analysis is stored and will be used throughout the session:
 - Extension scaffolding uses correct paths
 - TCA types match TYPO3 version
 
-## Version-Specific Adjustments
+## Version-Specific Guidelines
 
-### TYPO3 v11
+Document the detected version in CLAUDE.md and apply the matching guidelines below. Do NOT run any migration checks or validation agents.
+
+### TYPO3 v11 Guidelines
 - ObjectManager still available (deprecated)
 - Some old TCA types still work
 - switchableControllerActions still available
 - $GLOBALS['TSFE'] accessible
 
-### TYPO3 v12
-- ObjectManager removed
+### TYPO3 v12 Guidelines
+- ObjectManager removed — constructor DI required
 - Modern TCA types required
-- ResponseInterface required
+- ResponseInterface required for all controller actions
 - Strict DI enforcement
 - PSR-14 Events only
 
-### TYPO3 v13
+### TYPO3 v13 Guidelines
 - Content Blocks available
 - New backend UI
 - Composer-only mode

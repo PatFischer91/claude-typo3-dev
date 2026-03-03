@@ -1,15 +1,15 @@
 ---
 name: project-aware
-description: Dynamically adapts suggestions based on the detected TYPO3 version and project configuration. Reads .claude/typo3-project.json for context. Always active when working in TYPO3 projects.
+description: Dynamically adapts suggestions based on the detected TYPO3 version and project configuration. Reads CLAUDE.md for context. Always active when working in TYPO3 projects.
 ---
 
 # Project-Aware Skill
 
-This skill reads the project configuration from `.claude/typo3-project.json` and adapts all suggestions accordingly.
+This skill reads the project configuration from `CLAUDE.md` and adapts all suggestions accordingly.
 
 ## Configuration File
 
-The `/typo3:init` command creates `.claude/typo3-project.json` with:
+The `/typo3:init` command creates `CLAUDE.md` with:
 - TYPO3 version
 - PHP version
 - Project structure
@@ -139,7 +139,7 @@ When working in an extension directory:
 At the start of relevant tasks, check:
 
 ```
-.claude/typo3-project.json
+CLAUDE.md
 ```
 
 If not found, suggest running `/typo3:init` first.

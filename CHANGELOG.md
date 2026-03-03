@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## 1.2.1 - 2026-03-03
+
+### Fixed
+
+- **`/typo3:init` Subagent Delegation Bug**
+  - Claude no longer delegates project analysis to a subagent (e.g., `typo3-migration-assistant`) during init
+  - Added explicit execution rules: all analysis steps must be performed directly with Read, Glob, Grep, and Bash tools
+  - Renamed "Version-Specific Adjustments" to "Version-Specific Guidelines" to avoid migration-related associations
+  - Added guard note to prevent accidental invocation of migration or validation agents
+
+- **Documentation Updates**
+  - Removed all outdated references to `.claude/typo3-project.json`
+  - All documentation now correctly references `CLAUDE.md` (standard Claude Code approach)
+  - Updated README.md, FEATURES.md, and project-aware skill documentation
+  - Clarified SessionStart hook behavior (loads TYPO3 Coding Guidelines only)
+
+---
+
 ## 1.2.0 - 2026-01-23
 
 ### Added
